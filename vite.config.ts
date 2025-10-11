@@ -1,7 +1,7 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-});
+	plugins: [react()],
+	base: '/king-charles-spaniel/', // 👈 сюда то же имя, что и в homepage
+})
