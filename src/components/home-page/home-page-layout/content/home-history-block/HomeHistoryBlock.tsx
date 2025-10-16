@@ -211,48 +211,133 @@ export const HomeHistoryBlock: React.FC = () => {
 						display: 'flex',
 						flexDirection: 'column',
 						gap: { xs: '1.5rem', md: '2rem' },
-						order: { xs: 2, md: 1 }, // ✅ на мобильных идёт ниже картинки
+						order: { xs: 2, md: 1 },
 					}}
 				>
 					<motion.div
-						whileHover={{
-							boxShadow: '0 0 40px rgba(219,190,46,0.35)', // мягкое золотистое свечение
-							scale: 1.01, // лёгкий "дыхательный" эффект
+						initial={{
+							opacity: 0,
+							y: 40,
+							scale: 0.95,
 						}}
-						transition={{ duration: 0.6, ease: 'easeOut' }}
+						whileInView={{
+							opacity: 1,
+							y: 0,
+							scale: 1,
+						}}
+						viewport={{ once: true, margin: '-50px' }}
+						transition={{
+							duration: 0.8,
+							ease: [0.25, 0.46, 0.45, 0.94],
+							delay: 0.2,
+						}}
+						whileHover={{
+							boxShadow: '0 0 40px rgba(219,190,46,0.35)',
+							scale: 1.01,
+							y: -5,
+						}}
 						style={{
 							borderRadius: '20px',
 							overflow: 'hidden',
 							background: 'rgba(255,255,255,0.95)',
 							boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-							transition: 'box-shadow 0.6s ease, transform 0.6s ease',
+							backdropFilter: 'blur(10px)',
+							border: '1px solid rgba(255,255,255,0.2)',
+							position: 'relative',
 						}}
 					>
+						{/* Декоративный элемент */}
+						<Box
+							sx={{
+								position: 'absolute',
+								top: 0,
+								left: 0,
+								right: 0,
+								height: '3px',
+								background:
+									'linear-gradient(90deg, #8C0303 0%, #DBBE2E 50%, #8C0303 100%)',
+								opacity: 0.8,
+							}}
+						/>
+
 						<Box
 							sx={{
 								padding: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
+								position: 'relative',
+								zIndex: 2,
 							}}
 						>
-							<Typography
-								sx={{
-									fontSize: { xs: '1rem', md: '1.125rem' },
-									lineHeight: 1.7,
-									color: '#333',
-									mb: 2,
-									fontFamily: '"Inter", sans-serif',
-								}}
+							<motion.div
+								initial={{ opacity: 0, y: 20 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								viewport={{ once: true }}
+								transition={{ duration: 0.6, delay: 0.4 }}
 							>
-								Мы более двадцати лет живём рядом с собаками, растим,
-								воспитываем и изучаем их. Для нас каждая собака — член семьи. Мы
-								вкладываем в малышей всё тепло и заботу, чтобы подарить им
-								счастливую и полноценную жизнь рядом с вами. Сегодня «Кавалеры
-								Беларуси» — один из крупнейших и надёжных питомников в
-								Республике Беларусь. У нас более десяти племенных сук и
-								выдающиеся производители. Каждую пару для вязки мы подбираем с
-								особой тщательностью, чтобы гарантировать крепкое здоровье,
-								прекрасный характер и соответствие стандартам породы.
-							</Typography>
+								<Typography
+									sx={{
+										fontSize: { xs: '1rem', md: '1.125rem' },
+										lineHeight: 1.7,
+										color: '#333',
+										mb: 2,
+										fontFamily: '"Inter", sans-serif',
+										textAlign: { xs: 'left', sm: 'justify' },
+									}}
+								>
+									Мы более двадцати лет живём рядом с собаками, растим,
+									воспитываем и изучаем их. Для нас каждая собака — член семьи.
+									Мы вкладываем в малышей всё тепло и заботу, чтобы подарить им
+									счастливую и полноценную жизнь рядом с вами. Сегодня «Кавалеры
+									Беларуси» — один из крупнейших и надёжных питомников в
+									Республике Беларусь. У нас более десяти племенных сук и
+									выдающиеся производители. Каждую пару для вязки мы подбираем с
+									особой тщательностью, чтобы гарантировать крепкое здоровье,
+									прекрасный характер и соответствие стандартам породы.
+								</Typography>
+							</motion.div>
+
+							{/* Декоративные уголки */}
+							<Box
+								sx={{
+									position: 'absolute',
+									top: 15,
+									left: 15,
+									width: '20px',
+									height: '20px',
+									borderTop: '2px solid #DBBE2E',
+									borderLeft: '2px solid #DBBE2E',
+									opacity: 0.5,
+								}}
+							/>
+							<Box
+								sx={{
+									position: 'absolute',
+									bottom: 15,
+									right: 15,
+									width: '20px',
+									height: '20px',
+									borderBottom: '2px solid #DBBE2E',
+									borderRight: '2px solid #DBBE2E',
+									opacity: 0.5,
+								}}
+							/>
 						</Box>
+
+						{/* Фоновый градиент */}
+						<Box
+							sx={{
+								position: 'absolute',
+								top: 0,
+								left: 0,
+								right: 0,
+								bottom: 0,
+								background:
+									'linear-gradient(135deg, rgba(140,3,3,0.02) 0%, rgba(219,190,46,0.02) 100%)',
+								zIndex: 1,
+								opacity: 0,
+								transition: 'opacity 0.6s ease',
+							}}
+							className='hover-gradient'
+						/>
 					</motion.div>
 
 					{/* Карточки */}
