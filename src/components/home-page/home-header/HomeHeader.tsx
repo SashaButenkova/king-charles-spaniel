@@ -46,7 +46,7 @@ export const HomeHeader: React.FC = () => {
 			initial={{ opacity: 0, y: 30 }}
 			animate={{ opacity: 1, y: 0 }}
 			exit={{ opacity: 0, y: 30 }}
-			transition={{ duration: 0.35, ease: 'easeOut' }}
+			transition={{ duration: 0.25, ease: 'easeOut' }} // 🔥 Ускорено
 			style={{
 				width: '100vw',
 				height: '100vh',
@@ -54,6 +54,10 @@ export const HomeHeader: React.FC = () => {
 				display: 'flex',
 				flexDirection: 'column',
 				position: 'relative',
+				paddingLeft: 'env(safe-area-inset-left)',
+				paddingRight: 'env(safe-area-inset-right)',
+				paddingTop: 'env(safe-area-inset-top)',
+				paddingBottom: 'env(safe-area-inset-bottom)',
 			}}
 		>
 			{/* Само меню с градиентом (фон меню) */}
@@ -69,6 +73,10 @@ export const HomeHeader: React.FC = () => {
 					flexDirection: 'column',
 					padding: { xs: '1.2rem 0.9rem', sm: '1rem 0.8rem' },
 					boxSizing: 'border-box',
+					paddingTop: 'calc(1.2rem + env(safe-area-inset-top, 0px))',
+					paddingBottom: 'calc(1.2rem + env(safe-area-inset-bottom, 0px))',
+					paddingLeft: 'calc(0.9rem + env(safe-area-inset-left, 0px))',
+					paddingRight: 'calc(0.9rem + env(safe-area-inset-right, 0px))',
 				}}
 			>
 				{/* Верхняя строка */}
@@ -79,12 +87,13 @@ export const HomeHeader: React.FC = () => {
 						justifyContent: 'space-between',
 						alignItems: 'center',
 						mb: 1,
+						mt: 'env(safe-area-inset-top) ? 0.5rem : 0',
 					}}
 				>
 					<motion.div
 						initial={{ opacity: 0, scale: 0.9, y: -4 }}
 						animate={{ opacity: 1, scale: 1, y: 0 }}
-						transition={{ duration: 0.5, ease: 'easeOut' }}
+						transition={{ duration: 0.3, ease: 'easeOut' }} // 🔥 Ускорено
 					>
 						<Box
 							sx={{
@@ -96,7 +105,7 @@ export const HomeHeader: React.FC = () => {
 								filter: 'drop-shadow(0 0 10px rgba(255,217,125,0.7))',
 								animation: 'glowPulse 4s ease-in-out infinite',
 								mt: 0.6,
-								transition: 'transform 0.18s ease',
+								transition: 'transform 0.15s ease', // 🔥 Ускорено
 								'&:active': { transform: 'scale(0.98)' },
 								'@keyframes glowPulse': {
 									'0%': {
@@ -115,7 +124,6 @@ export const HomeHeader: React.FC = () => {
 								window.scrollTo({ top: 0, behavior: 'smooth' })
 							}}
 						>
-							{/* Только логотип без текста */}
 							<CardMedia
 								component='img'
 								src='Vector 10.svg'
@@ -123,7 +131,7 @@ export const HomeHeader: React.FC = () => {
 									width: 42,
 									height: 46,
 									filter: 'drop-shadow(0 0 8px rgba(255,217,125,0.6))',
-									transition: 'transform 0.3s ease',
+									transition: 'transform 0.25s ease', // 🔥 Ускорено
 									'&:hover': { transform: 'scale(1.05)' },
 								}}
 							/>
@@ -132,21 +140,39 @@ export const HomeHeader: React.FC = () => {
 
 					<IconButton
 						onClick={handleDrawerToggle}
-						sx={{ color: '#fff', p: 0.5 }}
+						sx={{
+							color: '#fff',
+							p: 0.5,
+							minWidth: 44,
+							minHeight: 44,
+							transition: 'transform 0.15s ease', // 🔥 Добавлено
+							'&:active': { transform: 'scale(0.9)' },
+						}}
 					>
 						<CloseIcon sx={{ fontSize: 22 }} />
 					</IconButton>
 				</Box>
 
 				{/* Навигация */}
-				<List sx={{ mb: 1, flexGrow: 1, mt: 2 }}>
+				<List
+					sx={{
+						mb: 1,
+						flexGrow: 1,
+						mt: 2,
+						paddingBottom: 'env(safe-area-inset-bottom) ? 1rem : 0',
+					}}
+				>
 					{menuItems.map((item, idx) => (
 						<motion.div
 							key={item.id}
 							initial={{ opacity: 0, x: 20 }}
 							animate={{ opacity: 1, x: 0 }}
-							exit={{ opacity: 0 }}
-							transition={{ delay: 0.12 + idx * 0.06, duration: 0.32 }}
+							exit={{ opacity: 0, x: 20 }} // 🔥 Добавлен exit
+							transition={{
+								delay: 0.08 + idx * 0.04, // 🔥 Ускорено
+								duration: 0.22, // 🔥 Ускорено
+								ease: 'easeOut',
+							}}
 						>
 							<ListItem
 								onClick={() => handleScrollToSection(item.id)}
@@ -155,6 +181,8 @@ export const HomeHeader: React.FC = () => {
 									borderBottom: '1px solid rgba(255,255,255,0.12)',
 									cursor: 'pointer',
 									'&:hover': { backgroundColor: 'rgba(255,255,255,0.06)' },
+									minHeight: 56,
+									transition: 'background-color 0.2s ease', // 🔥 Добавлено
 								}}
 							>
 								<ListItemText
@@ -166,6 +194,7 @@ export const HomeHeader: React.FC = () => {
 											fontWeight: 500,
 											fontSize: '1.08rem',
 											textAlign: 'center',
+											transition: 'color 0.2s ease', // 🔥 Добавлено
 										},
 									}}
 								/>
@@ -176,7 +205,13 @@ export const HomeHeader: React.FC = () => {
 
 				{/* Иконка вызова */}
 				<Box
-					sx={{ display: 'flex', justifyContent: 'center', mt: 'auto', mb: 1 }}
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						mt: 'auto',
+						mb: 1,
+						paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))',
+					}}
 				>
 					<IconButton
 						href='tel:+375296395904'
@@ -189,11 +224,14 @@ export const HomeHeader: React.FC = () => {
 							position: 'relative',
 							overflow: 'visible',
 							animation: 'callPulse 3s ease-in-out infinite',
-							transition: 'all 0.3s ease',
+							transition: 'all 0.25s ease', // 🔥 Ускорено
 							'&:hover': {
 								backgroundColor: '#FFE8A1',
 								boxShadow: '0 10px 30px rgba(255,217,125,0.36)',
 								transform: 'translateY(-2px)',
+							},
+							'&:active': {
+								transform: 'translateY(0) scale(0.95)', // 🔥 Добавлено
 							},
 							'@keyframes callPulse': {
 								'0%': {
@@ -211,7 +249,6 @@ export const HomeHeader: React.FC = () => {
 							},
 						}}
 					>
-						{/* Основная иконка звонка */}
 						<CardMedia
 							component='img'
 							src='Call2.svg'
@@ -228,7 +265,6 @@ export const HomeHeader: React.FC = () => {
 							}}
 						/>
 
-						{/* Светящееся расширяющееся кольцо */}
 						<Box
 							sx={{
 								position: 'absolute',
@@ -257,27 +293,27 @@ export const HomeHeader: React.FC = () => {
 				position='fixed'
 				sx={{
 					display: { xs: mobileOpen ? 'none' : 'flex', md: 'flex' },
-					// сохраняем старую логику фона/теней — но увеличиваем высоту на мобильных в исходном состоянии
 					background: scrolled
 						? 'linear-gradient(180deg, rgba(140,3,3,0.85) 0%, rgba(200,80,30,0.6) 100%)'
 						: 'linear-gradient(180deg, rgba(140,3,3,0.55) 0%, rgba(200,80,30,0.35) 100%)',
-					// blur только на мобильных по твоему запросу (фон AppBar будет слегка размытым)
 					backdropFilter: { xs: 'blur(10px)', md: 'none' },
 					boxShadow: scrolled
 						? '0 6px 22px rgba(0,0,0,0.22)'
 						: '0 2px 10px rgba(0,0,0,0.08)',
 					transition:
-						'height 0.28s ease, background 0.28s ease, box-shadow 0.28s ease',
-					// увеличенная высота на xs если НЕ scrolled (т.е. "исходное состояние" мобильного меню)
+						'height 0.25s ease, background 0.25s ease, box-shadow 0.25s ease', // 🔥 Ускорено
 					height: scrolled
 						? { xs: '48px', md: '50px' }
 						: { xs: '56px', md: '60px' },
 					justifyContent: 'center',
 					zIndex: 1300,
-					// 🔥 Добавляем безопасные отступы для новых iPhone
 					paddingLeft: { xs: 'env(safe-area-inset-left)', md: 0 },
 					paddingRight: { xs: 'env(safe-area-inset-right)', md: 0 },
 					paddingTop: { xs: 'env(safe-area-inset-top)', md: 0 },
+					minHeight: {
+						xs: 'calc(48px + env(safe-area-inset-top))',
+						md: '50px',
+					},
 				}}
 			>
 				<Toolbar
@@ -289,11 +325,19 @@ export const HomeHeader: React.FC = () => {
 						position: 'relative',
 						display: 'flex',
 						alignItems: 'center',
-						// 🔥 Учитываем безопасные зоны в отступах
-						paddingLeft: { xs: 'max(1rem, env(safe-area-inset-left))', md: 2 },
-						paddingRight: {
-							xs: 'max(1rem, env(safe-area-inset-right))',
+						paddingLeft: {
+							xs: 'max(1rem, env(safe-area-inset-left, 0px))',
 							md: 2,
+						},
+						paddingRight: {
+							xs: 'max(1rem, env(safe-area-inset-right, 0px))',
+							md: 2,
+						},
+						height: {
+							xs: scrolled
+								? 'calc(48px + env(safe-area-inset-top, 0px))'
+								: 'calc(56px + env(safe-area-inset-top, 0px))',
+							md: scrolled ? '50px' : '60px',
 						},
 					}}
 				>
@@ -305,7 +349,7 @@ export const HomeHeader: React.FC = () => {
 							gap: { xs: 0.8, md: 1 },
 							cursor: 'pointer',
 							transform: scrolled ? 'scale(0.92)' : 'scale(1)',
-							transition: 'transform 0.28s ease, filter 0.28s ease',
+							transition: 'transform 0.25s ease, filter 0.25s ease', // 🔥 Ускорено
 							filter: 'drop-shadow(0 0 10px rgba(255,217,125,0.6))',
 							animation: 'glowPulse 4s ease-in-out infinite',
 							'@keyframes glowPulse': {
@@ -320,7 +364,6 @@ export const HomeHeader: React.FC = () => {
 						}}
 						onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
 					>
-						{/* увеличенный логотип на мобильных в исходном состоянии */}
 						<CardMedia
 							component='img'
 							src='Vector 10.svg'
@@ -328,7 +371,7 @@ export const HomeHeader: React.FC = () => {
 							sx={{
 								width: { xs: scrolled ? 30 : 36, md: scrolled ? 34 : 40 },
 								height: { xs: scrolled ? 32 : 38, md: scrolled ? 38 : 44 },
-								transition: 'width 0.18s ease, height 0.18s ease',
+								transition: 'width 0.15s ease, height 0.15s ease', // 🔥 Ускорено
 							}}
 						/>
 						<Typography
@@ -345,7 +388,7 @@ export const HomeHeader: React.FC = () => {
 						</Typography>
 					</Box>
 
-					{/* Меню ПК (не трогаем) */}
+					{/* Меню ПК */}
 					<Box
 						sx={{
 							position: 'absolute',
@@ -373,6 +416,7 @@ export const HomeHeader: React.FC = () => {
 									textDecoration: 'none',
 									position: 'relative',
 									py: 0.3,
+									transition: 'color 0.2s ease', // 🔥 Ускорено
 									'&:hover': {
 										color: '#FFD97D',
 										'&::after': { width: '100%' },
@@ -385,7 +429,7 @@ export const HomeHeader: React.FC = () => {
 										width: 0,
 										height: 2,
 										backgroundColor: '#FFD97D',
-										transition: 'width 0.28s ease',
+										transition: 'width 0.25s ease', // 🔥 Ускорено
 									},
 								}}
 							>
@@ -394,7 +438,7 @@ export const HomeHeader: React.FC = () => {
 						))}
 					</Box>
 
-					{/* Телефон (ПК) — без изменений */}
+					{/* Телефон (ПК) */}
 					<Box
 						component='a'
 						href='tel:+375296395904'
@@ -415,7 +459,7 @@ export const HomeHeader: React.FC = () => {
 							backgroundColor: 'rgba(255,255,255,0.08)',
 							border: '1px solid rgba(255,255,255,0.14)',
 							backdropFilter: 'blur(6px)',
-							transition: 'all 0.22s ease',
+							transition: 'all 0.2s ease', // 🔥 Ускорено
 							'&:hover': {
 								color: '#FFD97D',
 								backgroundColor: 'rgba(255,255,255,0.14)',
@@ -443,10 +487,12 @@ export const HomeHeader: React.FC = () => {
 							justifyContent: 'center',
 							position: 'absolute',
 							right: {
-								xs: 'calc(4.0rem + env(safe-area-inset-right, 0px))', // 🔥 Сдвинул левее (было 3.2rem)
+								xs: 'calc(4.0rem + env(safe-area-inset-right, 0px))',
 								md: '4.8rem',
 							},
-							transition: 'all 0.28s ease',
+							transition: 'all 0.25s ease', // 🔥 Ускорено
+							minWidth: 44,
+							minHeight: 44,
 							'&:hover': {
 								transform: 'scale(1.12)',
 							},
@@ -471,8 +517,8 @@ export const HomeHeader: React.FC = () => {
 								sx={{
 									width: scrolled ? 20 : 24,
 									height: scrolled ? 20 : 24,
-									filter: 'brightness(0) invert(1)', // 🔥 Белая иконка
-									transition: 'width 0.28s ease, height 0.28s ease',
+									filter: 'brightness(0) invert(1)',
+									transition: 'width 0.25s ease, height 0.25s ease', // 🔥 Ускорено
 								}}
 							/>
 						</motion.div>
@@ -488,10 +534,14 @@ export const HomeHeader: React.FC = () => {
 								xs: 'calc(0.8rem + env(safe-area-inset-right, 0px))',
 								md: '0.8rem',
 							},
-							width: 44, // 🔥 Увеличил ширину
-							height: 44, // 🔥 Увеличил высоту
+							width: 44,
+							height: 44,
+							minWidth: 44,
+							minHeight: 44,
+							transition: 'transform 0.15s ease', // 🔥 Добавлено
+							'&:active': { transform: 'scale(0.9)' },
 							'& .MuiSvgIcon-root': {
-								fontSize: 28, // 🔥 Увеличил размер иконки
+								fontSize: 28,
 							},
 						}}
 					>
@@ -509,7 +559,7 @@ export const HomeHeader: React.FC = () => {
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 0.55 }}
 							exit={{ opacity: 0 }}
-							transition={{ duration: 0.28 }}
+							transition={{ duration: 0.1, ease: 'easeOut' }} // 🔥 Ускорено
 							style={{
 								position: 'fixed',
 								inset: 0,
@@ -517,6 +567,10 @@ export const HomeHeader: React.FC = () => {
 								backdropFilter: 'blur(8px)',
 								WebkitBackdropFilter: 'blur(8px)',
 								zIndex: 1298,
+								paddingLeft: 'env(safe-area-inset-left)',
+								paddingRight: 'env(safe-area-inset-right)',
+								paddingTop: 'env(safe-area-inset-top)',
+								paddingBottom: 'env(safe-area-inset-bottom)',
 							}}
 							onClick={() => setMobileOpen(false)}
 						/>
@@ -526,7 +580,10 @@ export const HomeHeader: React.FC = () => {
 							variant='temporary'
 							open={mobileOpen}
 							onClose={handleDrawerToggle}
-							ModalProps={{ keepMounted: true }}
+							ModalProps={{
+								keepMounted: true,
+								closeAfterTransition: true, // 🔥 Добавлено
+							}}
 							sx={{
 								display: { xs: 'block', md: 'none' },
 								zIndex: 1299,
@@ -534,6 +591,10 @@ export const HomeHeader: React.FC = () => {
 									width: '100vw',
 									background: 'transparent',
 									boxShadow: 'none',
+									paddingLeft: 'env(safe-area-inset-left)',
+									paddingRight: 'env(safe-area-inset-right)',
+									paddingTop: 'env(safe-area-inset-top)',
+									paddingBottom: 'env(safe-area-inset-bottom)',
 								},
 							}}
 						>
