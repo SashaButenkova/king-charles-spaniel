@@ -13,6 +13,7 @@ import {
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import MenuIcon from '@mui/icons-material/Menu'
+import { AnimatePresence, motion } from 'framer-motion'
 
 export const HomeHeader: React.FC = () => {
 	const [mobileOpen, setMobileOpen] = useState(false)
@@ -41,139 +42,212 @@ export const HomeHeader: React.FC = () => {
 
 	// ========== Drawer (мобильное меню) ==========
 	const drawer = (
-		<Box
-			sx={{
+		<motion.div
+			initial={{ opacity: 0, y: 30 }}
+			animate={{ opacity: 1, y: 0 }}
+			exit={{ opacity: 0, y: 30 }}
+			transition={{ duration: 0.35, ease: 'easeOut' }}
+			style={{
 				width: '100vw',
 				height: '100vh',
-				background: 'linear-gradient(180deg, #8C0303 0%, #C84A1F 100%)',
 				color: '#fff',
 				display: 'flex',
 				flexDirection: 'column',
-				padding: '1rem 0.8rem',
+				position: 'relative',
 			}}
 		>
-			{/* Верхняя строка */}
+			{/* Само меню с градиентом (фон меню) */}
 			<Box
 				sx={{
+					width: '100%',
+					height: '100%',
+					background:
+						'linear-gradient(180deg, rgba(140,3,3,0.98) 0%, rgba(200,74,31,0.95) 100%)',
+					backdropFilter: 'blur(6px)',
+					color: '#fff',
 					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'space-between',
-					alignItems: 'center',
-					mb: 1,
+					flexDirection: 'column',
+					padding: { xs: '1.2rem 0.9rem', sm: '1rem 0.8rem' },
+					boxSizing: 'border-box',
 				}}
 			>
+				{/* Верхняя строка */}
 				<Box
 					sx={{
 						display: 'flex',
 						flexDirection: 'row',
+						justifyContent: 'space-between',
 						alignItems: 'center',
-						gap: 1,
-						cursor: 'pointer',
-						filter: 'drop-shadow(0 0 8px rgba(255,217,125,0.6))',
-						animation: 'glowPulse 4s ease-in-out infinite',
-						transition: 'transform 0.2s ease',
-						'&:active': { transform: 'scale(0.98)' },
-						'@keyframes glowPulse': {
-							'0%': { filter: 'drop-shadow(0 0 4px rgba(255,217,125,0.4))' },
-							'50%': { filter: 'drop-shadow(0 0 12px rgba(255,217,125,0.8))' },
-							'100%': { filter: 'drop-shadow(0 0 4px rgba(255,217,125,0.4))' },
-						},
-					}}
-					onClick={() => {
-						setMobileOpen(false)
-						window.scrollTo({ top: 0, behavior: 'smooth' })
+						mb: 1,
 					}}
 				>
-					<CardMedia
-						component='img'
-						src='Vector 10.svg'
-						sx={{ width: 28, height: 32 }}
-					/>
-					<Box>
-						<Typography
+					<motion.div
+						initial={{ opacity: 0, scale: 0.9, y: -4 }}
+						animate={{ opacity: 1, scale: 1, y: 0 }}
+						transition={{ duration: 0.5, ease: 'easeOut' }}
+					>
+						<Box
 							sx={{
-								fontFamily: 'PT Serif',
-								fontWeight: 700,
-								fontSize: '0.95rem',
+								display: 'flex',
+								flexDirection: 'row',
+								alignItems: 'center',
+								gap: 1.2,
+								cursor: 'pointer',
+								filter: 'drop-shadow(0 0 10px rgba(255,217,125,0.7))',
+								animation: 'glowPulse 4s ease-in-out infinite',
+								mt: 0.6,
+								transition: 'transform 0.18s ease',
+								'&:active': { transform: 'scale(0.98)' },
+								'@keyframes glowPulse': {
+									'0%': {
+										filter: 'drop-shadow(0 0 6px rgba(255,217,125,0.4))',
+									},
+									'50%': {
+										filter: 'drop-shadow(0 0 16px rgba(255,217,125,0.9))',
+									},
+									'100%': {
+										filter: 'drop-shadow(0 0 6px rgba(255,217,125,0.4))',
+									},
+								},
+							}}
+							onClick={() => {
+								setMobileOpen(false)
+								window.scrollTo({ top: 0, behavior: 'smooth' })
 							}}
 						>
-							Кавалеры
-						</Typography>
-						<Typography
-							sx={{ color: '#FFD97D', fontSize: '0.78rem', fontWeight: 600 }}
-						>
-							Беларуси
-						</Typography>
-					</Box>
+							{/* Только логотип без текста */}
+							<CardMedia
+								component='img'
+								src='Vector 10.svg'
+								sx={{
+									width: 42,
+									height: 46,
+									filter: 'drop-shadow(0 0 8px rgba(255,217,125,0.6))',
+									transition: 'transform 0.3s ease',
+									'&:hover': { transform: 'scale(1.05)' },
+								}}
+							/>
+						</Box>
+					</motion.div>
+
+					<IconButton
+						onClick={handleDrawerToggle}
+						sx={{ color: '#fff', p: 0.5 }}
+					>
+						<CloseIcon sx={{ fontSize: 22 }} />
+					</IconButton>
 				</Box>
 
-				<IconButton onClick={handleDrawerToggle} sx={{ color: '#fff', p: 0.5 }}>
-					<CloseIcon sx={{ fontSize: 22 }} />
-				</IconButton>
-			</Box>
+				{/* Навигация */}
+				<List sx={{ mb: 1, flexGrow: 1, mt: 2 }}>
+					{menuItems.map((item, idx) => (
+						<motion.div
+							key={item.id}
+							initial={{ opacity: 0, x: 20 }}
+							animate={{ opacity: 1, x: 0 }}
+							exit={{ opacity: 0 }}
+							transition={{ delay: 0.12 + idx * 0.06, duration: 0.32 }}
+						>
+							<ListItem
+								onClick={() => handleScrollToSection(item.id)}
+								sx={{
+									padding: '0.8rem 0',
+									borderBottom: '1px solid rgba(255,255,255,0.12)',
+									cursor: 'pointer',
+									'&:hover': { backgroundColor: 'rgba(255,255,255,0.06)' },
+								}}
+							>
+								<ListItemText
+									primary={item.label}
+									sx={{
+										'& .MuiListItemText-primary': {
+											color: '#fff',
+											fontFamily: '"Inter", sans-serif',
+											fontWeight: 500,
+											fontSize: '1.08rem',
+											textAlign: 'center',
+										},
+									}}
+								/>
+							</ListItem>
+						</motion.div>
+					))}
+				</List>
 
-			{/* Навигация */}
-			<List sx={{ mb: 1, flexGrow: 1 }}>
-				{menuItems.map(item => (
-					<ListItem
-						key={item.id}
-						onClick={() => handleScrollToSection(item.id)}
+				{/* Иконка вызова */}
+				<Box
+					sx={{ display: 'flex', justifyContent: 'center', mt: 'auto', mb: 1 }}
+				>
+					<IconButton
+						href='tel:+375296395904'
 						sx={{
-							padding: '0.6rem 0',
-							borderBottom: '1px solid rgba(255,255,255,0.12)',
-							cursor: 'pointer',
-							'&:hover': { backgroundColor: 'rgba(255,255,255,0.06)' },
+							backgroundColor: '#FFD97D',
+							width: 64,
+							height: 64,
+							borderRadius: '50%',
+							boxShadow: '0 8px 22px rgba(255,217,125,0.28)',
+							position: 'relative',
+							overflow: 'visible',
+							animation: 'callPulse 3s ease-in-out infinite',
+							transition: 'all 0.3s ease',
+							'&:hover': {
+								backgroundColor: '#FFE8A1',
+								boxShadow: '0 10px 30px rgba(255,217,125,0.36)',
+								transform: 'translateY(-2px)',
+							},
+							'@keyframes callPulse': {
+								'0%': {
+									boxShadow: '0 0 10px rgba(255,217,125,0.3)',
+									transform: 'scale(1)',
+								},
+								'50%': {
+									boxShadow: '0 0 30px rgba(255,217,125,0.6)',
+									transform: 'scale(1.06)',
+								},
+								'100%': {
+									boxShadow: '0 0 10px rgba(255,217,125,0.3)',
+									transform: 'scale(1)',
+								},
+							},
 						}}
 					>
-						<ListItemText
-							primary={item.label}
+						{/* Основная иконка звонка */}
+						<CardMedia
+							component='img'
+							src='Call2.svg'
 							sx={{
-								'& .MuiListItemText-primary': {
-									color: '#fff',
-									fontFamily: '"Inter", sans-serif',
-									fontWeight: 500,
-									fontSize: '0.98rem',
-									textAlign: 'center',
+								width: 30,
+								height: 30,
+								filter: 'drop-shadow(0 0 6px rgba(255,217,125,0.8))',
+								animation: 'phoneShake 2s infinite ease-in-out',
+								'@keyframes phoneShake': {
+									'0%, 100%': { transform: 'rotate(0deg)' },
+									'10%, 30%, 50%, 70%, 90%': { transform: 'rotate(-15deg)' },
+									'20%, 40%, 60%, 80%': { transform: 'rotate(15deg)' },
 								},
 							}}
 						/>
-					</ListItem>
-				))}
-			</List>
 
-			{/* Иконка вызова */}
-			<Box
-				sx={{ display: 'flex', justifyContent: 'center', mt: 'auto', mb: 1 }}
-			>
-				<IconButton
-					href='tel:+375296395904'
-					sx={{
-						backgroundColor: '#FFD97D',
-						width: 56,
-						height: 56,
-						borderRadius: '50%',
-						boxShadow: '0 6px 18px rgba(255,217,125,0.25)',
-						animation: 'callPulse 3s ease-in-out infinite',
-						'&:hover': {
-							backgroundColor: '#FFE8A1',
-							boxShadow: '0 8px 26px rgba(255,217,125,0.35)',
-							transform: 'translateY(-2px)',
-						},
-						'@keyframes callPulse': {
-							'0%': { boxShadow: '0 4px 12px rgba(255,217,125,0.25)' },
-							'50%': { boxShadow: '0 10px 28px rgba(255,217,125,0.45)' },
-							'100%': { boxShadow: '0 4px 12px rgba(255,217,125,0.25)' },
-						},
-					}}
-				>
-					<CardMedia
-						component='img'
-						src='Call2.svg'
-						sx={{ width: 26, height: 26 }}
-					/>
-				</IconButton>
+						{/* Светящееся расширяющееся кольцо */}
+						<Box
+							sx={{
+								position: 'absolute',
+								inset: 0,
+								borderRadius: '50%',
+								border: '2px solid rgba(255,217,125,0.5)',
+								animation: 'ringExpand 2.5s ease-out infinite',
+								pointerEvents: 'none',
+								'@keyframes ringExpand': {
+									'0%': { transform: 'scale(1)', opacity: 0.8 },
+									'70%': { transform: 'scale(1.8)', opacity: 0 },
+									'100%': { transform: 'scale(1.8)', opacity: 0 },
+								},
+							}}
+						/>
+					</IconButton>
+				</Box>
 			</Box>
-		</Box>
+		</motion.div>
 	)
 
 	// ========== AppBar ==========
@@ -183,20 +257,27 @@ export const HomeHeader: React.FC = () => {
 				position='fixed'
 				sx={{
 					display: { xs: mobileOpen ? 'none' : 'flex', md: 'flex' },
+					// сохраняем старую логику фона/теней — но увеличиваем высоту на мобильных в исходном состоянии
 					background: scrolled
 						? 'linear-gradient(180deg, rgba(140,3,3,0.85) 0%, rgba(200,80,30,0.6) 100%)'
 						: 'linear-gradient(180deg, rgba(140,3,3,0.55) 0%, rgba(200,80,30,0.35) 100%)',
-					backdropFilter: 'blur(10px)',
+					// blur только на мобильных по твоему запросу (фон AppBar будет слегка размытым)
+					backdropFilter: { xs: 'blur(10px)', md: 'none' },
 					boxShadow: scrolled
 						? '0 6px 22px rgba(0,0,0,0.22)'
 						: '0 2px 10px rgba(0,0,0,0.08)',
 					transition:
 						'height 0.28s ease, background 0.28s ease, box-shadow 0.28s ease',
+					// увеличенная высота на xs если НЕ scrolled (т.е. "исходное состояние" мобильного меню)
 					height: scrolled
 						? { xs: '48px', md: '50px' }
-						: { xs: '40px', md: '60px' },
+						: { xs: '56px', md: '60px' },
 					justifyContent: 'center',
 					zIndex: 1300,
+					// 🔥 Добавляем безопасные отступы для новых iPhone
+					paddingLeft: { xs: 'env(safe-area-inset-left)', md: 0 },
+					paddingRight: { xs: 'env(safe-area-inset-right)', md: 0 },
+					paddingTop: { xs: 'env(safe-area-inset-top)', md: 0 },
 				}}
 			>
 				<Toolbar
@@ -208,7 +289,12 @@ export const HomeHeader: React.FC = () => {
 						position: 'relative',
 						display: 'flex',
 						alignItems: 'center',
-						px: { xs: 1, md: 2 },
+						// 🔥 Учитываем безопасные зоны в отступах
+						paddingLeft: { xs: 'max(1rem, env(safe-area-inset-left))', md: 2 },
+						paddingRight: {
+							xs: 'max(1rem, env(safe-area-inset-right))',
+							md: 2,
+						},
 					}}
 				>
 					{/* ЛОГОТИП */}
@@ -234,13 +320,15 @@ export const HomeHeader: React.FC = () => {
 						}}
 						onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
 					>
+						{/* увеличенный логотип на мобильных в исходном состоянии */}
 						<CardMedia
 							component='img'
 							src='Vector 10.svg'
 							alt='Логотип Кавалеры Беларуси'
 							sx={{
-								width: { xs: 30, md: scrolled ? 34 : 40 },
-								height: { xs: 32, md: scrolled ? 38 : 44 },
+								width: { xs: scrolled ? 30 : 36, md: scrolled ? 34 : 40 },
+								height: { xs: scrolled ? 32 : 38, md: scrolled ? 38 : 44 },
+								transition: 'width 0.18s ease, height 0.18s ease',
 							}}
 						/>
 						<Typography
@@ -257,7 +345,7 @@ export const HomeHeader: React.FC = () => {
 						</Typography>
 					</Box>
 
-					{/* Меню ПК */}
+					{/* Меню ПК (не трогаем) */}
 					<Box
 						sx={{
 							position: 'absolute',
@@ -306,7 +394,7 @@ export const HomeHeader: React.FC = () => {
 						))}
 					</Box>
 
-					{/* Телефон (ПК) */}
+					{/* Телефон (ПК) — без изменений */}
 					<Box
 						component='a'
 						href='tel:+375296395904'
@@ -354,28 +442,40 @@ export const HomeHeader: React.FC = () => {
 							alignItems: 'center',
 							justifyContent: 'center',
 							position: 'absolute',
-							right: '3.2rem',
-							width: 40,
-							height: 40,
-							borderRadius: '50%',
-							backgroundColor: 'rgba(255,255,255,0.08)',
-							border: '1px solid rgba(255,255,255,0.18)',
-							backdropFilter: 'blur(6px)',
-							filter: 'drop-shadow(0 0 8px rgba(255,217,125,0.6))',
-							animation: 'glowPulse 4s ease-in-out infinite',
-							transition: 'transform 0.18s ease, box-shadow 0.18s ease',
+							right: {
+								xs: 'calc(4.0rem + env(safe-area-inset-right, 0px))', // 🔥 Сдвинул левее (было 3.2rem)
+								md: '4.8rem',
+							},
+							transition: 'all 0.28s ease',
 							'&:hover': {
-								transform: 'scale(1.08)',
-								filter: 'drop-shadow(0 0 16px rgba(255,217,125,0.95))',
+								transform: 'scale(1.12)',
 							},
 						}}
 					>
-						<CardMedia
-							component='img'
-							src='Call2.svg'
-							alt='Позвонить'
-							sx={{ width: 22, height: 22 }}
-						/>
+						<motion.div
+							animate={{
+								scale: [1, 1.1, 1],
+								rotate: [0, -5, 5, 0],
+							}}
+							transition={{
+								duration: 2,
+								repeat: Infinity,
+								repeatType: 'reverse',
+								ease: 'easeInOut',
+							}}
+						>
+							<CardMedia
+								component='img'
+								src='Call2.svg'
+								alt='Позвонить'
+								sx={{
+									width: scrolled ? 20 : 24,
+									height: scrolled ? 20 : 24,
+									filter: 'brightness(0) invert(1)', // 🔥 Белая иконка
+									transition: 'width 0.28s ease, height 0.28s ease',
+								}}
+							/>
+						</motion.div>
 					</Box>
 
 					<IconButton
@@ -384,7 +484,15 @@ export const HomeHeader: React.FC = () => {
 							display: { xs: 'flex', md: 'none' },
 							color: '#fff',
 							position: 'absolute',
-							right: '0.8rem',
+							right: {
+								xs: 'calc(0.8rem + env(safe-area-inset-right, 0px))',
+								md: '0.8rem',
+							},
+							width: 44, // 🔥 Увеличил ширину
+							height: 44, // 🔥 Увеличил высоту
+							'& .MuiSvgIcon-root': {
+								fontSize: 28, // 🔥 Увеличил размер иконки
+							},
 						}}
 					>
 						<MenuIcon />
@@ -392,22 +500,48 @@ export const HomeHeader: React.FC = () => {
 				</Toolbar>
 			</AppBar>
 
-			<Drawer
-				variant='temporary'
-				open={mobileOpen}
-				onClose={handleDrawerToggle}
-				ModalProps={{ keepMounted: true }}
-				sx={{
-					display: { xs: 'block', md: 'none' },
-					'& .MuiDrawer-paper': {
-						width: '100vw',
-						background: 'transparent',
-						boxShadow: 'none',
-					},
-				}}
-			>
-				{drawer}
-			</Drawer>
+			{/* Мобильное меню с полупрозрачным размытым фоном */}
+			<AnimatePresence>
+				{mobileOpen && (
+					<>
+						{/* Полупрозрачный + размытый фон */}
+						<motion.div
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 0.55 }}
+							exit={{ opacity: 0 }}
+							transition={{ duration: 0.28 }}
+							style={{
+								position: 'fixed',
+								inset: 0,
+								background: 'rgba(0,0,0,0.5)',
+								backdropFilter: 'blur(8px)',
+								WebkitBackdropFilter: 'blur(8px)',
+								zIndex: 1298,
+							}}
+							onClick={() => setMobileOpen(false)}
+						/>
+
+						{/* Drawer */}
+						<Drawer
+							variant='temporary'
+							open={mobileOpen}
+							onClose={handleDrawerToggle}
+							ModalProps={{ keepMounted: true }}
+							sx={{
+								display: { xs: 'block', md: 'none' },
+								zIndex: 1299,
+								'& .MuiDrawer-paper': {
+									width: '100vw',
+									background: 'transparent',
+									boxShadow: 'none',
+								},
+							}}
+						>
+							{drawer}
+						</Drawer>
+					</>
+				)}
+			</AnimatePresence>
 		</>
 	)
 }

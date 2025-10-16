@@ -1,192 +1,41 @@
 import { Box, CardMedia, Typography, Button, Stack } from '@mui/material'
 import React from 'react'
-import Grid from '@mui/material/Grid'
 import { useTheme } from '@mui/material/styles'
-import {
-	type HomeHistoryCardProps,
-	HomeHistoryCard,
-} from './home-history-card/HomeHistoryCard'
+import { motion } from 'framer-motion'
 
-export const HomeHistoryBlock: React.FC = ({}) => {
+// 🔹 Новый импорт — твой компонент карточки
+import { HomeHistoryCard } from './home-history-card/HomeHistoryCard'
+
+export const HomeHistoryBlock: React.FC = () => {
 	const theme = useTheme()
 
-	const cardsData: HomeHistoryCardProps[] = [
+	const cardsData = [
 		{
-			index: 1,
-			iconImages: [
-				{
-					src: 'atom.svg',
-					sx: {
-						width: { xs: '48px', md: '64px' },
-						height: { xs: '48px', md: '64px' },
-					},
-				},
-			],
+			icon: <CardMedia component='img' src='atom.svg' />,
 			title: '20+ лет опыта',
-			subtitle:
-				'Более двадцати лет живём рядом с собаками, растим и изучаем их',
-			backgroundElement: (
-				<Box
-					sx={{
-						position: 'absolute',
-						top: { xs: -10, md: -20 },
-						right: { xs: -10, md: -20 },
-						width: { xs: '80px', md: '120px' },
-						height: { xs: '80px', md: '120px' },
-						background:
-							'radial-gradient(circle, rgba(219,190,46,0.15) 0%, transparent 70%)',
-						opacity: 0.6,
-					}}
-				/>
-			),
-			badge: {
-				text: 'С 2000 года',
-				color: '#8C0303',
-				bgColor: 'rgba(140,3,3,0.1)',
-			},
-			cardSx: {
-				minHeight: { xs: '180px', sm: '200px', md: '220px' },
-				padding: { xs: '1.5rem', md: '2rem' },
-			},
+			text: 'Более двадцати лет живём рядом с собаками, растим и изучаем их',
 		},
 		{
-			index: 2,
-			iconImages: [
-				{
-					src: 'redDog.svg',
-					sx: {
-						width: { xs: '48px', md: '64px' },
-						height: { xs: '48px', md: '64px' },
-					},
-				},
-			],
+			icon: <CardMedia component='img' src='redDog.svg' />,
 			title: '10+ племенных сук',
-			subtitle: 'Более десяти племенных сук и выдающиеся производители',
-			backgroundElement: (
-				<Box
-					sx={{
-						position: 'absolute',
-						bottom: { xs: -20, md: -30 },
-						left: { xs: -20, md: -30 },
-						width: { xs: '100px', md: '150px' },
-						height: { xs: '100px', md: '150px' },
-						background:
-							'radial-gradient(circle, rgba(140,3,3,0.1) 0%, transparent 70%)',
-						opacity: 0.5,
-					}}
-				/>
-			),
-			badge: {
-				text: 'Элитное поголовье',
-				color: '#DBBE2E',
-				bgColor: 'rgba(219,190,46,0.15)',
-			},
-			cardSx: {
-				minHeight: { xs: '180px', sm: '200px', md: '220px' },
-				padding: { xs: '1.5rem', md: '2rem' },
-			},
+			text: 'Более десяти племенных сук и выдающиеся производители',
 		},
 		{
-			index: 3,
-			iconImages: [
-				{
-					src: 'Family.svg',
-					sx: {
-						width: { xs: '48px', md: '64px' },
-						height: { xs: '48px', md: '64px' },
-					},
-				},
-			],
+			icon: <CardMedia component='img' src='Family.svg' />,
 			title: 'Каждая собака — член семьи',
-			subtitle: 'Мы вкладываем в малышей всё тепло и заботу',
-			backgroundElement: (
-				<>
-					<Box
-						sx={{
-							position: 'absolute',
-							top: '50%',
-							left: '50%',
-							transform: 'translate(-50%, -50%)',
-							width: { xs: '70px', md: '100px' },
-							height: { xs: '70px', md: '100px' },
-							background:
-								'conic-gradient(from 45deg, rgba(140,3,3,0.05), rgba(219,190,46,0.05), rgba(140,3,3,0.05))',
-							borderRadius: '50%',
-							opacity: 0.4,
-						}}
-					/>
-					<Box
-						sx={{
-							position: 'absolute',
-							top: 8,
-							right: 8,
-							width: { xs: '30px', md: '40px' },
-							height: { xs: '30px', md: '40px' },
-							background: 'rgba(247,228,175,0.3)',
-							borderRadius: '50%',
-							opacity: 0.3,
-						}}
-					/>
-				</>
-			),
-			badge: {
-				text: 'С заботой',
-				color: '#8C0303',
-				bgColor: 'rgba(247,228,175,0.3)',
-			},
-			cardSx: {
-				minHeight: { xs: '180px', sm: '200px', md: '220px' },
-				padding: { xs: '1.5rem', md: '2rem' },
-			},
+			text: 'Мы вкладываем в малышей всё тепло и заботу',
 		},
 		{
-			index: 4,
-			iconImages: [
-				{
-					src: 'busMini.svg',
-					sx: {
-						width: { xs: '48px', md: '64px' },
-						height: { xs: '48px', md: '64px' },
-					},
-				},
-			],
+			icon: <CardMedia component='img' src='busMini.svg' />,
 			title: 'Личная доставка',
-			subtitle: 'Лично и бесплатно доставляем по Беларуси и России',
-			backgroundElement: (
-				<Box
-					sx={{
-						position: 'absolute',
-						top: { xs: -8, md: -10 },
-						right: { xs: '25%', md: '30%' },
-						width: { xs: '60px', md: '80px' },
-						height: { xs: '60px', md: '80px' },
-						background:
-							'linear-gradient(45deg, rgba(140,3,3,0.08) 0%, rgba(219,190,46,0.08) 100%)',
-						borderRadius: '16px',
-						transform: 'rotate(45deg)',
-						opacity: 0.4,
-					}}
-				/>
-			),
-			badge: {
-				text: 'Бесплатно',
-				color: '#8C0303',
-				bgColor: 'rgba(140,3,3,0.1)',
-			},
-			cardSx: {
-				minHeight: { xs: '180px', sm: '200px', md: '220px' },
-				padding: { xs: '1.5rem', md: '2rem' },
-			},
+			text: 'Лично и бесплатно доставляем по Беларуси и России',
 		},
 	]
 
 	const handleContactScroll = () => {
 		const element = document.getElementById('contacts')
 		if (element) {
-			element.scrollIntoView({
-				behavior: 'smooth',
-				block: 'start',
-			})
+			element.scrollIntoView({ behavior: 'smooth', block: 'start' })
 		}
 	}
 
@@ -194,13 +43,28 @@ export const HomeHistoryBlock: React.FC = ({}) => {
 		window.open('tel:+375296395904', '_self')
 	}
 
+	const containerVariants = {
+		hidden: { opacity: 0 },
+		visible: {
+			opacity: 1,
+			transition: { staggerChildren: 0.2 },
+		},
+	}
+
+	const itemVariants = {
+		hidden: { opacity: 0, y: 30 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			transition: { duration: 0.6, ease: 'easeOut' },
+		},
+	}
+
 	return (
 		<Box
 			id='about'
-			className='General-History-Box'
 			sx={{
 				minHeight: { xs: 'auto', md: '100vh' },
-				backgroundColor: '#F8F7F5',
 				background: 'linear-gradient(135deg, #F8F7F5 0%, #F1F0ED 100%)',
 				position: 'relative',
 				overflow: 'hidden',
@@ -218,419 +82,349 @@ export const HomeHistoryBlock: React.FC = ({}) => {
 			}}
 		>
 			{/* Заголовок */}
-			<Box
-				className='Heading-Box'
-				sx={{
-					position: 'relative',
-					zIndex: 2,
-					padding: { xs: '2rem 1rem', sm: '3rem 2rem', md: '4rem 2rem 3rem' },
-					textAlign: 'center',
-					maxWidth: '1200px',
-					margin: '0 auto',
-				}}
+			<motion.div
+				initial='hidden'
+				whileInView='visible'
+				viewport={{ once: true }}
+				variants={containerVariants}
 			>
-				<Stack
-					className='Header-Badge'
-					direction='row'
-					alignItems='center'
-					justifyContent='center'
-					gap={{ xs: 1, md: 2 }}
-					sx={{ mb: 3 }}
+				<Box
+					sx={{
+						position: 'relative',
+						zIndex: 2,
+						padding: { xs: '2rem 1rem', sm: '3rem 2rem', md: '4rem 2rem 3rem' },
+						textAlign: 'center',
+						maxWidth: '1200px',
+						margin: '0 auto',
+					}}
 				>
-					<CardMedia
-						component='img'
-						src='heartRed.svg'
-						sx={{
-							width: { xs: '24px', md: '28px' },
-							height: { xs: '24px', md: '28px' },
-							filter: 'drop-shadow(0 2px 4px rgba(140,3,3,0.2))',
-						}}
-					/>
-					<Box
-						className='Badge'
-						sx={{
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							padding: { xs: '0.4rem 1rem', md: '0.5rem 1.5rem' },
-							backgroundColor: '#F7E4AF',
-							borderRadius: { xs: '8px', md: '12px' },
-							boxShadow: '0 4px 12px rgba(247,228,175,0.4)',
-							border: '1px solid rgba(140,3,3,0.1)',
-						}}
-					>
+					<motion.div variants={itemVariants}>
+						<Stack
+							direction='row'
+							alignItems='center'
+							justifyContent='center'
+							gap={{ xs: 1, md: 2 }}
+							sx={{ mb: 3 }}
+						>
+							<CardMedia
+								component='img'
+								src='heartRed.svg'
+								sx={{ width: { xs: 24, md: 28 } }}
+							/>
+							<Box
+								sx={{
+									padding: { xs: '0.4rem 1rem', md: '0.5rem 1.5rem' },
+									backgroundColor: '#F7E4AF',
+									borderRadius: '12px',
+								}}
+							>
+								<Typography
+									sx={{
+										color: '#8C0303',
+										fontWeight: 700,
+										fontSize: { xs: '0.875rem', md: '1rem' },
+									}}
+								>
+									О нас
+								</Typography>
+							</Box>
+							<CardMedia
+								component='img'
+								src='stars.svg'
+								sx={{ width: { xs: 24, md: 28 } }}
+							/>
+						</Stack>
+					</motion.div>
+
+					<motion.div variants={itemVariants}>
 						<Typography
+							variant='h1'
 							sx={{
+								fontSize: { xs: '2rem', sm: '2.25rem', md: '3.5rem' },
+								fontWeight: 700,
+								fontFamily: '"Playfair Display", serif',
 								color: '#8C0303',
-								fontWeight: '700',
-								fontSize: { xs: '0.875rem', md: '1rem' },
-								fontFamily: '"Inter", sans-serif',
-								letterSpacing: '0.5px',
+								lineHeight: 1.1,
+								mb: 1,
+								background: 'linear-gradient(135deg, #8C0303 0%, #DBBE2E 100%)',
+								backgroundClip: 'text',
+								WebkitBackgroundClip: 'text',
+								WebkitTextFillColor: 'transparent',
 							}}
 						>
-							О нас
+							Там, где начинается{' '}
+							<Typography
+								component='span'
+								sx={{
+									fontSize: { xs: '2rem', sm: '2.25rem', md: '3.5rem' },
+									fontWeight: 700,
+									fontFamily: '"Playfair Display", serif',
+									color: '#DBBE2E',
+									display: 'inline-block',
+									background:
+										'linear-gradient(135deg, #DBBE2E 0%, #8C0303 100%)',
+									backgroundClip: 'text',
+									WebkitBackgroundClip: 'text',
+									WebkitTextFillColor: 'transparent',
+								}}
+							>
+								дружба
+							</Typography>
 						</Typography>
-					</Box>
-					<CardMedia
-						component='img'
-						src='stars.svg'
-						sx={{
-							width: { xs: '24px', md: '28px' },
-							height: { xs: '24px', md: '28px' },
-							filter: 'drop-shadow(0 2px 4px rgba(219,190,46,0.3))',
-						}}
-					/>
-				</Stack>
+					</motion.div>
 
-				<Typography
-					variant='h1'
-					sx={{
-						fontSize: { xs: '2rem', sm: '2.25rem', md: '3.5rem' },
-						fontWeight: 700,
-						fontFamily: '"Playfair Display", serif',
-						color: '#8C0303',
-						lineHeight: 1.1,
-						mb: 1,
-						background: 'linear-gradient(135deg, #8C0303 0%, #DBBE2E 100%)',
-						backgroundClip: 'text',
-						WebkitBackgroundClip: 'text',
-						WebkitTextFillColor: 'transparent',
-						textShadow: '0 4px 8px rgba(0,0,0,0.1)',
-					}}
-				>
-					Там, где начинается
-					<Typography
-						component='span'
-						sx={{
-							fontSize: { xs: '2rem', sm: '2.25rem', md: '3.5rem' },
-							fontWeight: 700,
-							fontFamily: '"Playfair Display", serif',
-							color: '#DBBE2E',
-							ml: { xs: 1, md: 2 },
-							display: 'inline-block',
-							background: 'linear-gradient(135deg, #DBBE2E 0%, #8C0303 100%)',
-							backgroundClip: 'text',
-							WebkitBackgroundClip: 'text',
-							WebkitTextFillColor: 'transparent',
-						}}
-					>
-						дружба
-					</Typography>
-				</Typography>
+					<motion.div variants={itemVariants}>
+						<Typography
+							sx={{
+								fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
+								lineHeight: 1.6,
+								color: '#666',
+								maxWidth: '800px',
+								margin: '1rem auto 0',
+							}}
+						>
+							Питомник «Кавалеры Беларуси» — это семья, влюблённая в породу
+							Кавалер Кинг Чарльз Спаниель. Мы заботимся о каждом щенке с
+							вниманием и теплом, как о собственном.
+						</Typography>
+					</motion.div>
+				</Box>
+			</motion.div>
 
-				<Typography
-					sx={{
-						fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
-						lineHeight: 1.6,
-						fontFamily: '"PT Sans", sans-serif',
-						color: '#666',
-						maxWidth: '800px',
-						margin: { xs: '1rem auto 0', md: '1.5rem auto 0' },
-						textAlign: 'center',
-						px: { xs: 1, sm: 0 },
-					}}
-				>
-					Питомник «Кавалеры Беларуси» — это семья, влюблённая в породу Кавалер
-					Кинг Чарльз Спаниель. Мы заботимся о каждом щенке с вниманием и
-					теплом, как о собственном.
-				</Typography>
-			</Box>
-
-			{/* Основной контент */}
+			{/* Контент */}
 			<Box
-				className='Content-Container'
 				sx={{
 					position: 'relative',
 					zIndex: 2,
 					maxWidth: '1200px',
 					margin: '0 auto',
-					padding: { xs: '0 1rem 2rem', sm: '0 2rem 3rem' },
-					display: { xs: 'block', md: 'grid' },
+					padding: { xs: '0 1rem 3rem', sm: '0 2rem 4rem' },
+					display: { xs: 'flex', md: 'grid' },
+					flexDirection: { xs: 'column', md: 'row' },
 					gridTemplateColumns: { md: '1fr 380px' },
 					gap: { xs: '2rem', md: '3rem' },
-					alignItems: 'start',
 				}}
 			>
-				{/* Левая колонка - текст и карточки */}
+				{/* Левая часть */}
 				<Box
-					className='Left-Column'
 					sx={{
 						display: 'flex',
 						flexDirection: 'column',
 						gap: { xs: '1.5rem', md: '2rem' },
-						mb: { xs: '2rem', md: 0 },
+						order: { xs: 2, md: 1 }, // ✅ на мобильных идёт ниже картинки
 					}}
 				>
-					{/* Текстовый блок */}
-					<Box
-						className='Text-Block'
-						sx={{
-							padding: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
-							backgroundColor: 'rgba(255,255,255,0.95)',
-							backdropFilter: 'blur(10px)',
-							borderRadius: { xs: '16px', md: '20px' },
+					<motion.div
+						whileHover={{
+							boxShadow: '0 0 40px rgba(219,190,46,0.35)', // мягкое золотистое свечение
+							scale: 1.01, // лёгкий "дыхательный" эффект
+						}}
+						transition={{ duration: 0.6, ease: 'easeOut' }}
+						style={{
+							borderRadius: '20px',
+							overflow: 'hidden',
+							background: 'rgba(255,255,255,0.95)',
 							boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-							border: '1px solid rgba(255,255,255,0.5)',
+							transition: 'box-shadow 0.6s ease, transform 0.6s ease',
 						}}
 					>
-						<Typography
+						<Box
 							sx={{
-								fontSize: { xs: '1rem', md: '1.125rem' },
-								lineHeight: { xs: 1.6, md: 1.7 },
-								fontFamily: '"PT Sans", sans-serif',
-								color: '#333',
-								mb: { xs: 2, md: 3 },
-								textAlign: { xs: 'left', sm: 'justify' },
+								padding: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
 							}}
 						>
-							Мы более двадцати лет живём рядом с собаками, растим, воспитываем
-							и изучаем их. Для нас каждая собака — член семьи. Мы вкладываем в
-							малышей всё тепло и заботу, чтобы подарить им счастливую и
-							полноценную жизнь рядом с вами.
-						</Typography>
-						<Typography
-							sx={{
-								fontSize: { xs: '1rem', md: '1.125rem' },
-								lineHeight: { xs: 1.6, md: 1.7 },
-								fontFamily: '"PT Sans", sans-serif',
-								color: '#333',
-								textAlign: { xs: 'left', sm: 'justify' },
-							}}
-						>
-							Сегодня «Кавалеры Беларуси» — один из крупнейших и надёжных
-							питомников в Республике Беларусь. У нас более десяти племенных сук
-							и выдающиеся производители. Каждую пару для вязки мы подбираем с
-							особой тщательностью, чтобы гарантировать крепкое здоровье,
-							прекрасный характер и соответствие стандартам породы.
-						</Typography>
-					</Box>
-
-					{/* Карточки преимуществ */}
-					<Box
-						className='Cards-Container'
-						sx={{
-							display: 'grid',
-							gridTemplateColumns: {
-								xs: '1fr',
-								sm: '1fr 1fr',
-								md: '1fr 1fr',
-							},
-							gap: { xs: '1rem', sm: '1.5rem' },
-							width: '100%',
-							justifyItems: { xs: 'center', md: 'stretch' },
-						}}
-					>
-						{cardsData.map((card, index) => (
-							<Box
-								key={index}
+							<Typography
 								sx={{
-									height: '100%',
-									transform: 'translateY(0)',
-									transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-									position: 'relative',
-									'&:hover': {
-										transform: {
-											xs: 'translateY(-4px)',
-											md: 'translateY(-8px)',
-										},
-										'& .card-glow': {
-											opacity: 1,
-										},
-									},
+									fontSize: { xs: '1rem', md: '1.125rem' },
+									lineHeight: 1.7,
+									color: '#333',
+									mb: 2,
+									fontFamily: '"Inter", sans-serif',
 								}}
 							>
-								<HomeHistoryCard
-									{...card}
-									sx={{
-										minHeight: { xs: '180px', sm: '200px', md: '220px' },
-										position: 'relative',
-										overflow: 'hidden',
-										'&::before': {
-											content: '""',
-											position: 'absolute',
-											top: 0,
-											left: 0,
-											right: 0,
-											bottom: 0,
-											background:
-												'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,247,245,0.9) 100%)',
-											borderRadius: { xs: '16px', md: '20px' },
-											zIndex: 1,
-										},
-									}}
-								/>
-								{/* Эффект свечения при hover */}
-								<Box
-									className='card-glow'
-									sx={{
-										position: 'absolute',
-										top: 0,
-										left: 0,
-										right: 0,
-										bottom: 0,
-										borderRadius: { xs: '16px', md: '20px' },
-										background:
-											index === 0
-												? 'linear-gradient(135deg, rgba(219,190,46,0.1) 0%, transparent 50%)'
-												: index === 1
-													? 'linear-gradient(135deg, rgba(140,3,3,0.1) 0%, transparent 50%)'
-													: index === 2
-														? 'linear-gradient(135deg, rgba(247,228,175,0.1) 0%, transparent 50%)'
-														: 'linear-gradient(135deg, rgba(140,3,3,0.08) 0%, transparent 50%)',
-										opacity: 0,
-										transition: 'opacity 0.4s ease',
-										pointerEvents: 'none',
-										zIndex: 0,
-									}}
-								/>
-							</Box>
+								Мы более двадцати лет живём рядом с собаками, растим,
+								воспитываем и изучаем их. Для нас каждая собака — член семьи. Мы
+								вкладываем в малышей всё тепло и заботу, чтобы подарить им
+								счастливую и полноценную жизнь рядом с вами. Сегодня «Кавалеры
+								Беларуси» — один из крупнейших и надёжных питомников в
+								Республике Беларусь. У нас более десяти племенных сук и
+								выдающиеся производители. Каждую пару для вязки мы подбираем с
+								особой тщательностью, чтобы гарантировать крепкое здоровье,
+								прекрасный характер и соответствие стандартам породы.
+							</Typography>
+						</Box>
+					</motion.div>
+
+					{/* Карточки */}
+					<Box
+						sx={{
+							display: 'grid',
+							gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+							gap: { xs: '1rem', sm: '1.5rem' },
+							marginTop: { xs: '0.5rem', sm: '1rem' },
+						}}
+					>
+						{cardsData.map((card, i) => (
+							<motion.div
+								key={i}
+								initial={{ opacity: 0, y: 20 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.5, delay: 0.1 * i }}
+								whileHover={{ y: -8 }}
+							>
+								<HomeHistoryCard {...card} />
+							</motion.div>
 						))}
 					</Box>
 				</Box>
 
-				{/* Правая колонка - изображение и контакты */}
+				{/* Правая колонка */}
 				<Box
-					className='Right-Column'
 					sx={{
 						display: 'flex',
 						flexDirection: 'column',
-						gap: { xs: '1.5rem', md: '2rem' },
+						gap: '1.5rem',
 						position: { xs: 'static', md: 'sticky' },
-						top: { md: '2rem' },
+						top: '2rem',
+						order: { xs: 3, md: 2 }, // ✅ теперь на мобильных после карточек
 					}}
 				>
-					{/* Изображение собаки */}
-					<Box
-						className='Dog-Image-Container'
-						sx={{
-							position: 'relative',
-							borderRadius: { xs: '16px', md: '20px' },
+					<motion.div
+						initial={{ opacity: 0, y: 30 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.8, ease: 'easeOut' }}
+						whileHover={{
+							scale: 1.04,
+							boxShadow: '0 25px 60px rgba(0, 0, 0, 0.15)',
+						}}
+						transition={{
+							type: 'spring',
+							stiffness: 120,
+							damping: 15,
+						}}
+						style={{
+							borderRadius: '24px',
 							overflow: 'hidden',
-							boxShadow: '0 15px 30px rgba(0,0,0,0.12)',
-							height: { xs: '250px', sm: '300px', md: '280px' },
-							flexShrink: 0,
-							'&::before': {
-								content: '""',
-								position: 'absolute',
-								top: 0,
-								left: 0,
-								right: 0,
-								bottom: 0,
-								background:
-									'linear-gradient(45deg, rgba(140,3,3,0.05) 0%, rgba(219,190,46,0.05) 100%)',
-								zIndex: 1,
-							},
+							boxShadow: '0 12px 30px rgba(0, 0, 0, 0.12)',
+							display: 'inline-block',
+							cursor: 'pointer',
 						}}
 					>
-						<CardMedia
-							component='img'
+						<motion.img
 							src='Dog2.svg'
-							sx={{
+							style={{
 								width: '100%',
-								height: '100%',
+								height: 'auto',
 								objectFit: 'cover',
-								transition: 'transform 0.5s ease',
-								'&:hover': {
-									transform: { xs: 'scale(1.02)', md: 'scale(1.03)' },
-								},
+								borderRadius: '24px',
+								display: 'block',
+								transition: 'filter 0.6s ease',
 							}}
+							whileHover={{
+								scale: 1.06,
+								filter: 'brightness(1.08) contrast(1.05)',
+							}}
+							transition={{ duration: 0.6, ease: 'easeOut' }}
 						/>
-					</Box>
+					</motion.div>
 
-					{/* Блок контактов */}
-					<Box
-						className='Contact-Box'
-						sx={{
-							padding: { xs: '1.5rem', md: '2rem' },
-							backgroundColor: 'rgba(255,255,255,0.95)',
-							backdropFilter: 'blur(10px)',
-							borderRadius: { xs: '16px', md: '20px' },
+					<motion.div
+						initial={{ opacity: 0, y: 30 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.8, ease: 'easeOut' }}
+						whileHover={{
+							scale: 1.02,
+							boxShadow: '0 20px 50px rgba(140, 3, 3, 0.15)',
+						}}
+						style={{
+							borderRadius: '20px',
+							overflow: 'hidden',
+							background: 'linear-gradient(145deg, #ffffff, #f5f5f5)',
 							boxShadow: '0 8px 25px rgba(0,0,0,0.08)',
-							border: '1px solid rgba(255,255,255,0.6)',
-							display: 'flex',
-							flexDirection: 'column',
+							transition: 'box-shadow 0.4s ease, transform 0.4s ease',
 						}}
 					>
-						<Stack direction='row' alignItems='center' gap={2} sx={{ mb: 2 }}>
-							<CardMedia
-								component='img'
-								src='Call2.svg'
-								sx={{
-									width: { xs: '32px', md: '40px' },
-									height: { xs: '32px', md: '40px' },
-									filter: 'drop-shadow(0 2px 4px rgba(140,3,3,0.2))',
-								}}
-							/>
-							<Box>
-								<Typography
+						<Box sx={{ padding: '1.8rem' }}>
+							<Stack direction='row' alignItems='center' gap={2} sx={{ mb: 2 }}>
+								<motion.img
+									src='Call2.svg'
+									style={{
+										width: 38,
+										height: 38,
+										filter: 'drop-shadow(0 2px 4px rgba(140,3,3,0.25))',
+									}}
+									whileHover={{ scale: 1.1, rotate: 8 }}
+									transition={{ type: 'spring', stiffness: 200, damping: 12 }}
+								/>
+								<Box>
+									<Typography
+										sx={{
+											color: '#8C0303',
+											fontWeight: 600,
+											fontFamily: '"Inter", sans-serif',
+											fontSize: '1rem',
+										}}
+									>
+										Связаться с нами
+									</Typography>
+									<Typography
+										sx={{
+											color: '#666',
+											fontSize: '0.85rem',
+											fontFamily: '"PT Sans", sans-serif',
+										}}
+									>
+										Всегда рады ответить на вопросы
+									</Typography>
+								</Box>
+							</Stack>
+
+							<motion.div whileHover={{ scale: 1.03 }}>
+								<Button
+									onClick={handleCall}
+									fullWidth
 									sx={{
-										fontSize: { xs: '1rem', md: '1.1rem' },
-										fontWeight: '600',
-										fontFamily: '"Inter", sans-serif',
+										backgroundColor: 'rgba(140,3,3,0.08)',
 										color: '#8C0303',
-										mb: 0.5,
+										borderRadius: '10px',
+										mb: 1.5,
+										fontFamily: '"Inter", sans-serif',
+										fontWeight: 600,
+										transition: 'all 0.3s ease',
+										'&:hover': {
+											backgroundColor: 'rgba(140,3,3,0.15)',
+											boxShadow: '0 0 15px rgba(140,3,3,0.25)',
+											transform: 'translateY(-2px)',
+										},
 									}}
 								>
-									Связаться с нами
-								</Typography>
-								<Typography
+									+375 29 639-59-04
+								</Button>
+							</motion.div>
+
+							<motion.div whileHover={{ scale: 1.03 }}>
+								<Button
+									onClick={handleContactScroll}
+									fullWidth
 									sx={{
-										fontSize: { xs: '0.75rem', md: '0.8rem' },
-										color: '#666',
-										fontFamily: '"PT Sans", sans-serif',
+										background:
+											'linear-gradient(135deg, #8C0303 0%, #DBBE2E 100%)',
+										color: 'white',
+										borderRadius: '10px',
+										fontFamily: '"Inter", sans-serif',
+										fontWeight: 600,
+										transition: 'all 0.4s ease',
+										'&:hover': {
+											boxShadow: '0 0 20px rgba(219,190,46,0.4)',
+											transform: 'translateY(-2px)',
+										},
 									}}
 								>
-									Всегда рады ответить на вопросы
-								</Typography>
-							</Box>
-						</Stack>
-
-						<Button
-							onClick={handleCall}
-							fullWidth
-							sx={{
-								py: { xs: 1, md: 1.25 },
-								backgroundColor: 'rgba(140,3,3,0.08)',
-								color: '#8C0303',
-								borderRadius: { xs: '8px', md: '12px' },
-								fontWeight: '500',
-								fontFamily: '"Inter", sans-serif',
-								fontSize: { xs: '0.875rem', md: '0.95rem' },
-								mb: { xs: 1, md: 1.5 },
-								border: '1px solid rgba(140,3,3,0.1)',
-								'&:hover': {
-									backgroundColor: 'rgba(140,3,3,0.15)',
-									transform: 'translateY(-1px)',
-									boxShadow: '0 4px 12px rgba(140,3,3,0.2)',
-								},
-								transition: 'all 0.3s ease',
-							}}
-						>
-							+375 29 639-59-04
-						</Button>
-
-						<Button
-							onClick={handleContactScroll}
-							fullWidth
-							sx={{
-								py: { xs: 1, md: 1.25 },
-								backgroundColor: '#8C0303',
-								color: 'white',
-								borderRadius: { xs: '8px', md: '12px' },
-								fontWeight: '500',
-								fontFamily: '"Inter", sans-serif',
-								fontSize: { xs: '0.875rem', md: '0.95rem' },
-								'&:hover': {
-									backgroundColor: '#a10505',
-									transform: 'translateY(-1px)',
-									boxShadow: '0 4px 12px rgba(140,3,3,0.3)',
-								},
-								transition: 'all 0.3s ease',
-							}}
-						>
-							Написать сообщение
-						</Button>
-					</Box>
+									Написать сообщение
+								</Button>
+							</motion.div>
+						</Box>
+					</motion.div>
 				</Box>
 			</Box>
 		</Box>

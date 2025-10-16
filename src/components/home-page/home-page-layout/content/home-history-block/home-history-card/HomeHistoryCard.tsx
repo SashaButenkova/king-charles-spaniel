@@ -1,96 +1,83 @@
-import {
-	CardMedia,
-	Typography,
-	type SxProps,
-	type Theme,
-	Stack,
-} from '@mui/material'
-import { Box } from '@mui/system'
 import React from 'react'
-import { theme } from '../../../../../../styles/themes'
+import { Box, Typography } from '@mui/material'
 
-type ImageIcon = {
-	src: string
-	sx?: SxProps<Theme>
-}
-
-export interface HomeHistoryCardProps {
-	index: number
+interface HomeHistoryCardProps {
+	icon: React.ReactNode
 	title: string
-	subtitle: string
-	iconImages: ImageIcon[]
-	titleSX?: SxProps<Theme>
-	sx?: SxProps<Theme> // ← добавляем это
-	backgroundElement?: React.ReactNode // ← добавляем это
-	badge?: {
-		// ← добавляем это
-		text: string
-		color: string
-		bgColor: string
-	}
-	cardSx?: SxProps<Theme> // ← добавляем это для карточки
+	text: string
+	bgColor?: string
+	border?: boolean
 }
 
 export const HomeHistoryCard: React.FC<HomeHistoryCardProps> = ({
-	index,
+	icon,
 	title,
-	subtitle,
-	iconImages,
-
-	titleSX,
+	text,
+	bgColor = '#fff',
+	border = true,
 }) => {
 	return (
 		<Box
-			id='about'
-			component='section'
-			className='Columns-Box'
 			sx={{
 				display: 'flex',
-				backgroundColor: '#FFFFFF',
-				border: 'solid #0000001F 2px',
-				gap: 0,
-				borderRadius: '15px',
-				width: '17rem',
-				height: index === 1 || index === 2 ? '8.125rem' : '8.875rem',
+				alignItems: 'center',
+				gap: { xs: 2, md: 3 },
+				padding: { xs: 2.5, sm: 3, md: 3.5 },
+				background: bgColor,
+				borderRadius: '20px',
+				boxShadow: border ? '0 0 10px rgba(0,0,0,0.05)' : 'none',
+				border: border ? '1px solid rgba(0,0,0,0.05)' : 'none',
+				transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+				height: { xs: 'auto', md: '150px' },
+				'&:hover': {
+					transform: 'translateY(-5px)',
+					boxShadow: '0 8px 20px rgba(0,0,0,0.08)',
+				},
 			}}
 		>
-			{iconImages.map((img, i) => (
-				<CardMedia
-					key={i}
-					component='img'
-					src={img.src}
-					sx={img.sx}
-				></CardMedia>
-			))}
-			<Stack
-				direction='column'
+			{/* Иконка */}
+			<Box
 				sx={{
-					gap: '.75rem',
-					width: '11.25rem',
-					height: '5.625rem',
-					paddingBlockStart: '0.938rem',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					minWidth: { xs: 50, md: 60 },
+					minHeight: { xs: 50, md: 60 },
+					borderRadius: '16px',
+					backgroundColor: 'rgba(140,3,3,0.08)',
+					flexShrink: 0,
 				}}
 			>
+				<Box sx={{ fontSize: { xs: 28, md: 34 }, color: '#8C0303' }}>
+					{icon}
+				</Box>
+			</Box>
+
+			{/* Текст */}
+			<Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
 				<Typography
 					sx={{
 						color: '#8C0303',
-						fontFamily: theme.typography.specialTypography.fontFamily,
-						...titleSX,
+						fontSize: { xs: '1rem', md: '1.1rem' },
+						fontWeight: 700,
+						lineHeight: 1.3,
+						fontFamily: '"Inter", sans-serif',
 					}}
 				>
 					{title}
 				</Typography>
+
 				<Typography
 					sx={{
-						...theme.typography.historyTypography,
-						fontSize: '16px',
-						lineHeight: '18px',
-						letterSpacing: 0,
+						color: '#444',
+						fontSize: { xs: '0.9rem', md: '1rem' },
+						lineHeight: 1.4,
+						fontFamily: '"PT Sans", sans-serif',
 					}}
 				>
-					{subtitle}
+					{text}
 				</Typography>
-			</Stack>
+			</Box>
 		</Box>
 	)
 }
