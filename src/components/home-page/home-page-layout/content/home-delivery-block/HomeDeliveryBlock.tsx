@@ -53,6 +53,41 @@ export const HomeDeliveryBlock: React.FC = () => {
 		},
 	}
 
+	const fadeIn: Variants = {
+		hidden: { opacity: 0 },
+		visible: {
+			opacity: 1,
+			transition: { duration: 0.6, ease: easeOut },
+		},
+	}
+
+	const slideInLeft: Variants = {
+		hidden: { opacity: 0, x: -30 },
+		visible: {
+			opacity: 1,
+			x: 0,
+			transition: { duration: 0.5, ease: easeOut },
+		},
+	}
+
+	const slideInRight: Variants = {
+		hidden: { opacity: 0, x: 30 },
+		visible: {
+			opacity: 1,
+			x: 0,
+			transition: { duration: 0.5, ease: easeOut },
+		},
+	}
+
+	const scaleIn: Variants = {
+		hidden: { opacity: 0, scale: 0.8 },
+		visible: {
+			opacity: 1,
+			scale: 1,
+			transition: { duration: 0.4, ease: easeOut },
+		},
+	}
+
 	const containerVariants: Variants = {
 		hidden: {},
 		visible: {
@@ -61,6 +96,17 @@ export const HomeDeliveryBlock: React.FC = () => {
 			},
 		},
 	}
+
+	const textContainerVariants: Variants = {
+		hidden: {},
+		visible: {
+			transition: {
+				staggerChildren: 0.1,
+			},
+		},
+	}
+
+	// 🔥 Исправленный компонент для мобильного графика маршрута
 	// 🔥 Исправленный компонент для мобильного графика маршрута
 	const MobileRouteMap = () => (
 		<Box
@@ -68,8 +114,8 @@ export const HomeDeliveryBlock: React.FC = () => {
 				display: { xs: 'block', md: 'none' },
 				width: '100%',
 				position: 'relative',
-				py: 2, // 🔥 Уменьшил отступ сверху и снизу
-				mb: 1, // 🔥 Уменьшил отступ снизу
+				py: 2,
+				mb: 1,
 			}}
 		>
 			{/* Основная линия маршрута */}
@@ -91,7 +137,7 @@ export const HomeDeliveryBlock: React.FC = () => {
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',
-					gap: 4, // 🔥 Уменьшил расстояние между точками
+					gap: 4,
 					position: 'relative',
 					zIndex: 2,
 				}}
@@ -103,7 +149,7 @@ export const HomeDeliveryBlock: React.FC = () => {
 						flexDirection: 'column',
 						alignItems: 'center',
 						position: 'relative',
-						height: '70px', // 🔥 Уменьшил высоту
+						height: '70px',
 					}}
 				>
 					{/* 🔥 Точка на линии */}
@@ -114,7 +160,7 @@ export const HomeDeliveryBlock: React.FC = () => {
 					>
 						<Box
 							sx={{
-								width: 50, // 🔥 Уменьшил размер
+								width: 50,
 								height: 50,
 								borderRadius: '50%',
 								background: 'linear-gradient(135deg, #8C0303 0%, #DBBE2E 100%)',
@@ -130,7 +176,7 @@ export const HomeDeliveryBlock: React.FC = () => {
 								component='img'
 								src='RedLoc.svg'
 								sx={{
-									width: 25, // 🔥 Уменьшил размер иконки
+									width: 25,
 									height: 25,
 									filter: 'brightness(0) invert(1)',
 								}}
@@ -139,21 +185,28 @@ export const HomeDeliveryBlock: React.FC = () => {
 					</motion.div>
 					{/* 🔥 Текст под точкой */}
 					<Box sx={{ textAlign: 'center' }}>
-						<Typography
-							sx={{
-								fontFamily: theme.typography.PTSans.fontFamily,
-								fontWeight: 700,
-								fontSize: '0.9rem', // 🔥 Уменьшил размер шрифта
-								color: '#8C0303',
-								background: 'rgba(255,255,255,0.9)',
-								padding: '3px 10px', // 🔥 Уменьшил паддинг
-								borderRadius: '20px',
-								backdropFilter: 'blur(10px)',
-								display: 'inline-block',
-							}}
+						<motion.div
+							initial='hidden'
+							whileInView='visible'
+							viewport={{ once: true }}
+							variants={fadeInUp}
 						>
-							Беларусь
-						</Typography>
+							<Typography
+								sx={{
+									fontFamily: theme.typography.PTSans.fontFamily,
+									fontWeight: 700,
+									fontSize: '0.9rem',
+									color: '#8C0303',
+									background: 'rgba(255,255,255,0.9)',
+									padding: '3px 10px',
+									borderRadius: '20px',
+									backdropFilter: 'blur(10px)',
+									display: 'inline-block',
+								}}
+							>
+								Беларусь
+							</Typography>
+						</motion.div>
 					</Box>
 				</Box>
 
@@ -164,39 +217,64 @@ export const HomeDeliveryBlock: React.FC = () => {
 						alignItems: 'center',
 						justifyContent: 'space-between',
 						position: 'relative',
-						height: '50px', // 🔥 Уменьшил высоту
+						height: '50px',
 					}}
 				>
 					{/* 🔥 Текст слева */}
-					<Box sx={{ flex: 1, textAlign: 'left', pl: 2 }}>
-						<Typography
+					<Box sx={{ flex: 1, textAlign: 'left', pl: 2, position: 'relative' }}>
+						{/* 🔥 Пунктирная линия от точки к тексту */}
+						<Box
 							sx={{
-								fontFamily: theme.typography.PTSans.fontFamily,
-								fontWeight: 600,
-								fontSize: '0.85rem', // 🔥 Уменьшил размер шрифта
-								color: '#8C0303',
-								background: 'rgba(255,255,255,0.9)',
-								padding: '3px 10px',
-								borderRadius: '20px',
-								backdropFilter: 'blur(10px)',
-								mb: 0.5,
-								display: 'inline-block',
+								position: 'absolute',
+								right: 0,
+								top: '50%',
+								width: 'calc(50% - 20px)',
+								height: '1px',
+								borderTop: '2px dashed #DBBE2E',
+								opacity: 0.7,
+								transform: 'translateY(-50%)',
 							}}
+						/>
+
+						<motion.div
+							initial='hidden'
+							whileInView='visible'
+							viewport={{ once: true }}
+							variants={slideInLeft}
 						>
-							Смоленск
-						</Typography>
-						<Typography
-							sx={{
-								fontSize: '0.65rem', // 🔥 Уменьшил размер шрифта
-								color: '#666',
-								display: 'block',
-							}}
-						>
-							Смоленская область
-						</Typography>
+							<Typography
+								sx={{
+									fontFamily: theme.typography.PTSans.fontFamily,
+									fontWeight: 600,
+									fontSize: '0.85rem',
+									color: '#8C0303',
+									background: 'rgba(255,255,255,0.9)',
+									padding: '3px 10px',
+									borderRadius: '20px',
+									backdropFilter: 'blur(10px)',
+									mb: 0.5,
+									display: 'inline-block',
+									position: 'relative',
+									zIndex: 2,
+								}}
+							>
+								Смоленск
+							</Typography>
+							<Typography
+								sx={{
+									fontSize: '0.65rem',
+									color: '#666',
+									display: 'block',
+									position: 'relative',
+									zIndex: 2,
+								}}
+							>
+								Смоленская область
+							</Typography>
+						</motion.div>
 					</Box>
 
-					{/* 🔥 Точка на линии - АБСОЛЮТНОЕ ПОЗИЦИОНИРОВАНИЕ */}
+					{/* 🔥 Точка на линии */}
 					<Box
 						sx={{
 							position: 'absolute',
@@ -213,18 +291,17 @@ export const HomeDeliveryBlock: React.FC = () => {
 						>
 							<Box
 								sx={{
-									width: 14, // 🔥 Уменьшил размер
+									width: 14,
 									height: 14,
 									borderRadius: '50%',
 									background: '#DBBE2E',
-									border: '2px solid white', // 🔥 Уменьшил бордер
+									border: '2px solid white',
 									boxShadow: '0 2px 6px rgba(219,190,46,0.4)',
 								}}
 							/>
 						</motion.div>
 					</Box>
 
-					{/* 🔥 Пустой бокс для баланса */}
 					<Box sx={{ flex: 1 }} />
 				</Box>
 
@@ -235,13 +312,12 @@ export const HomeDeliveryBlock: React.FC = () => {
 						alignItems: 'center',
 						justifyContent: 'space-between',
 						position: 'relative',
-						height: '50px', // 🔥 Уменьшил высоту
+						height: '50px',
 					}}
 				>
-					{/* 🔥 Пустой бокс для баланса */}
 					<Box sx={{ flex: 1 }} />
 
-					{/* 🔥 Точка на линии - АБСОЛЮТНОЕ ПОЗИЦИОНИРОВАНИЕ */}
+					{/* 🔥 Точка на линии */}
 					<Box
 						sx={{
 							position: 'absolute',
@@ -270,32 +346,59 @@ export const HomeDeliveryBlock: React.FC = () => {
 					</Box>
 
 					{/* 🔥 Текст справа */}
-					<Box sx={{ flex: 1, textAlign: 'right', pr: 2 }}>
-						<Typography
+					<Box
+						sx={{ flex: 1, textAlign: 'right', pr: 2, position: 'relative' }}
+					>
+						{/* 🔥 Пунктирная линия от точки к тексту */}
+						<Box
 							sx={{
-								fontFamily: theme.typography.PTSans.fontFamily,
-								fontWeight: 600,
-								fontSize: '0.85rem',
-								color: '#8C0303',
-								background: 'rgba(255,255,255,0.9)',
-								padding: '3px 10px',
-								borderRadius: '20px',
-								backdropFilter: 'blur(10px)',
-								mb: 0.5,
-								display: 'inline-block',
+								position: 'absolute',
+								left: 0,
+								top: '50%',
+								width: 'calc(50% - 20px)',
+								height: '1px',
+								borderTop: '2px dashed #DBBE2E',
+								opacity: 0.7,
+								transform: 'translateY(-50%)',
 							}}
+						/>
+
+						<motion.div
+							initial='hidden'
+							whileInView='visible'
+							viewport={{ once: true }}
+							variants={slideInRight}
 						>
-							Брянск
-						</Typography>
-						<Typography
-							sx={{
-								fontSize: '0.65rem',
-								color: '#666',
-								display: 'block',
-							}}
-						>
-							Брянская область
-						</Typography>
+							<Typography
+								sx={{
+									fontFamily: theme.typography.PTSans.fontFamily,
+									fontWeight: 600,
+									fontSize: '0.85rem',
+									color: '#8C0303',
+									background: 'rgba(255,255,255,0.9)',
+									padding: '3px 10px',
+									borderRadius: '20px',
+									backdropFilter: 'blur(10px)',
+									mb: 0.5,
+									display: 'inline-block',
+									position: 'relative',
+									zIndex: 2,
+								}}
+							>
+								Брянск
+							</Typography>
+							<Typography
+								sx={{
+									fontSize: '0.65rem',
+									color: '#666',
+									display: 'block',
+									position: 'relative',
+									zIndex: 2,
+								}}
+							>
+								Брянская область
+							</Typography>
+						</motion.div>
 					</Box>
 				</Box>
 
@@ -306,39 +409,64 @@ export const HomeDeliveryBlock: React.FC = () => {
 						alignItems: 'center',
 						justifyContent: 'space-between',
 						position: 'relative',
-						height: '50px', // 🔥 Уменьшил высоту
+						height: '50px',
 					}}
 				>
 					{/* 🔥 Текст слева */}
-					<Box sx={{ flex: 1, textAlign: 'left', pl: 2 }}>
-						<Typography
+					<Box sx={{ flex: 1, textAlign: 'left', pl: 2, position: 'relative' }}>
+						{/* 🔥 Пунктирная линия от точки к тексту */}
+						<Box
 							sx={{
-								fontFamily: theme.typography.PTSans.fontFamily,
-								fontWeight: 600,
-								fontSize: '0.85rem',
-								color: '#8C0303',
-								background: 'rgba(255,255,255,0.9)',
-								padding: '3px 10px',
-								borderRadius: '20px',
-								backdropFilter: 'blur(10px)',
-								mb: 0.5,
-								display: 'inline-block',
+								position: 'absolute',
+								right: 0,
+								top: '50%',
+								width: 'calc(50% - 20px)',
+								height: '1px',
+								borderTop: '2px dashed #DBBE2E',
+								opacity: 0.7,
+								transform: 'translateY(-50%)',
 							}}
+						/>
+
+						<motion.div
+							initial='hidden'
+							whileInView='visible'
+							viewport={{ once: true }}
+							variants={slideInLeft}
 						>
-							Калуга
-						</Typography>
-						<Typography
-							sx={{
-								fontSize: '0.65rem',
-								color: '#666',
-								display: 'block',
-							}}
-						>
-							Калужская область
-						</Typography>
+							<Typography
+								sx={{
+									fontFamily: theme.typography.PTSans.fontFamily,
+									fontWeight: 600,
+									fontSize: '0.85rem',
+									color: '#8C0303',
+									background: 'rgba(255,255,255,0.9)',
+									padding: '3px 10px',
+									borderRadius: '20px',
+									backdropFilter: 'blur(10px)',
+									mb: 0.5,
+									display: 'inline-block',
+									position: 'relative',
+									zIndex: 2,
+								}}
+							>
+								Калуга
+							</Typography>
+							<Typography
+								sx={{
+									fontSize: '0.65rem',
+									color: '#666',
+									display: 'block',
+									position: 'relative',
+									zIndex: 2,
+								}}
+							>
+								Калужская область
+							</Typography>
+						</motion.div>
 					</Box>
 
-					{/* 🔥 Точка на линии - АБСОЛЮТНОЕ ПОЗИЦИОНИРОВАНИЕ */}
+					{/* 🔥 Точка на линии */}
 					<Box
 						sx={{
 							position: 'absolute',
@@ -366,7 +494,6 @@ export const HomeDeliveryBlock: React.FC = () => {
 						</motion.div>
 					</Box>
 
-					{/* 🔥 Пустой бокс для баланса */}
 					<Box sx={{ flex: 1 }} />
 				</Box>
 
@@ -377,7 +504,7 @@ export const HomeDeliveryBlock: React.FC = () => {
 						flexDirection: 'column',
 						alignItems: 'center',
 						position: 'relative',
-						height: '70px', // 🔥 Уменьшил высоту
+						height: '70px',
 					}}
 				>
 					{/* 🔥 Точка на линии */}
@@ -388,7 +515,7 @@ export const HomeDeliveryBlock: React.FC = () => {
 					>
 						<Box
 							sx={{
-								width: 60, // 🔥 Уменьшил размер
+								width: 60,
 								height: 60,
 								borderRadius: '50%',
 								background: 'linear-gradient(135deg, #DBBE2E 0%, #8C0303 100%)',
@@ -404,7 +531,7 @@ export const HomeDeliveryBlock: React.FC = () => {
 								component='img'
 								src='RedLoc.svg'
 								sx={{
-									width: 28, // 🔥 Уменьшил размер иконки
+									width: 28,
 									height: 28,
 									filter: 'brightness(0) invert(1)',
 								}}
@@ -413,30 +540,37 @@ export const HomeDeliveryBlock: React.FC = () => {
 					</motion.div>
 					{/* 🔥 Текст под точкой */}
 					<Box sx={{ textAlign: 'center' }}>
-						<Typography
-							sx={{
-								fontFamily: theme.typography.PTSans.fontFamily,
-								fontWeight: 700,
-								fontSize: '1rem', // 🔥 Уменьшил размер шрифта
-								color: '#8C0303',
-								background: 'rgba(255,255,255,0.9)',
-								padding: '4px 12px', // 🔥 Уменьшил паддинг
-								borderRadius: '20px',
-								backdropFilter: 'blur(10px)',
-								display: 'inline-block',
-							}}
+						<motion.div
+							initial='hidden'
+							whileInView='visible'
+							viewport={{ once: true }}
+							variants={fadeInUp}
 						>
-							Москва
-						</Typography>
-						<Typography
-							sx={{
-								fontSize: '0.7rem', // 🔥 Уменьшил размер шрифта
-								color: '#666',
-								mt: 0.5,
-							}}
-						>
-							Московская область
-						</Typography>
+							<Typography
+								sx={{
+									fontFamily: theme.typography.PTSans.fontFamily,
+									fontWeight: 700,
+									fontSize: '1rem',
+									color: '#8C0303',
+									background: 'rgba(255,255,255,0.9)',
+									padding: '4px 12px',
+									borderRadius: '20px',
+									backdropFilter: 'blur(10px)',
+									display: 'inline-block',
+								}}
+							>
+								Москва
+							</Typography>
+							<Typography
+								sx={{
+									fontSize: '0.7rem',
+									color: '#666',
+									mt: 0.5,
+								}}
+							>
+								Московская область
+							</Typography>
+						</motion.div>
 					</Box>
 				</Box>
 			</Box>
@@ -451,7 +585,7 @@ export const HomeDeliveryBlock: React.FC = () => {
 				backgroundColor: '#F8F7F5',
 				position: 'relative',
 				overflow: 'hidden',
-				py: { xs: '2rem', md: '5rem' }, // 🔥 Уменьшил отступы на мобильных
+				py: { xs: '2rem', md: '5rem' },
 				'&::before': {
 					content: '""',
 					position: 'absolute',
@@ -469,7 +603,7 @@ export const HomeDeliveryBlock: React.FC = () => {
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',
-					gap: { xs: '2rem', md: '3.5rem' }, // 🔥 Уменьшил gap на мобильных
+					gap: { xs: '2rem', md: '3.5rem' },
 					width: '100%',
 					maxWidth: '1280px',
 					margin: '0 auto',
@@ -479,12 +613,13 @@ export const HomeDeliveryBlock: React.FC = () => {
 					zIndex: 2,
 				}}
 			>
-				{/* Заголовок */}
+				{/* Заголовок с анимацией */}
 				<motion.div
 					initial='hidden'
 					whileInView='visible'
 					viewport={{ once: true, amount: 0.3 }}
-					variants={fadeInUp}
+					variants={textContainerVariants}
+					style={{ width: '100%' }}
 				>
 					<Box
 						sx={{
@@ -495,54 +630,66 @@ export const HomeDeliveryBlock: React.FC = () => {
 							textAlign: 'center',
 						}}
 					>
-						<Box
-							sx={{
-								display: 'flex',
-								flexDirection: 'row',
-								gap: { xs: '0.5rem', md: '0.75rem' },
-								alignItems: 'center',
-								justifyContent: 'center',
-								flexWrap: 'wrap',
-							}}
-						>
-							<CardMedia
-								component='img'
-								src='RedBus.svg'
+						<motion.div variants={fadeInUp}>
+							<Box
 								sx={{
-									width: { xs: '28px', sm: '32px', md: '36px' },
-									height: { xs: '28px', sm: '32px', md: '36px' },
-								}}
-							/>
-							<Typography
-								sx={{
-									fontFamily: "'Playfair Display', serif",
-									fontWeight: 700,
-									fontSize: { xs: '1.6rem', sm: '2rem', md: '2.4rem' },
-									lineHeight: 1.2,
-									background:
-										'linear-gradient(135deg, #8C0303 0%, #DBBE2E 100%)',
-									backgroundClip: 'text',
-									WebkitBackgroundClip: 'text',
-									WebkitTextFillColor: 'transparent',
+									display: 'flex',
+									flexDirection: 'row',
+									gap: { xs: '0.5rem', md: '0.75rem' },
+									alignItems: 'center',
+									justifyContent: 'center',
+									flexWrap: 'wrap',
 								}}
 							>
-								Бесплатная доставка с заботой
-							</Typography>
-						</Box>
+								<motion.div
+									variants={scaleIn}
+									whileHover={{ scale: 1.1 }}
+									transition={{ duration: 0.2 }}
+								>
+									<CardMedia
+										component='img'
+										src='RedBus.svg'
+										sx={{
+											width: { xs: '28px', sm: '32px', md: '36px' },
+											height: { xs: '28px', sm: '32px', md: '36px' },
+										}}
+									/>
+								</motion.div>
+								<motion.div variants={fadeInUp}>
+									<Typography
+										sx={{
+											fontFamily: "'Playfair Display', serif",
+											fontWeight: 700,
+											fontSize: { xs: '1.6rem', sm: '2rem', md: '2.4rem' },
+											lineHeight: 1.2,
+											background:
+												'linear-gradient(135deg, #8C0303 0%, #DBBE2E 100%)',
+											backgroundClip: 'text',
+											WebkitBackgroundClip: 'text',
+											WebkitTextFillColor: 'transparent',
+										}}
+									>
+										Бесплатная доставка с заботой
+									</Typography>
+								</motion.div>
+							</Box>
+						</motion.div>
 
-						<Typography
-							sx={{
-								fontFamily: theme.typography.PTSans,
-								fontWeight: 400,
-								fontSize: { xs: '0.95rem', md: '1.05rem' },
-								lineHeight: 1.6,
-								color: '#00000099',
-								maxWidth: { xs: '95%', sm: '640px', md: '760px' },
-							}}
-						>
-							Мы лично и бесплатно доставляем щенков по всей Беларуси, а также в
-							Москву, Московскую, Смоленскую, Брянскую и Калужскую области.
-						</Typography>
+						<motion.div variants={fadeInUp}>
+							<Typography
+								sx={{
+									fontFamily: theme.typography.PTSans,
+									fontWeight: 400,
+									fontSize: { xs: '0.95rem', md: '1.05rem' },
+									lineHeight: 1.6,
+									color: '#00000099',
+									maxWidth: { xs: '95%', sm: '640px', md: '760px' },
+								}}
+							>
+								Мы лично и бесплатно доставляем щенков по всей Беларуси, а также
+								в Москву, Московскую, Смоленскую, Брянскую и Калужскую области.
+							</Typography>
+						</motion.div>
 					</Box>
 				</motion.div>
 
@@ -657,7 +804,7 @@ export const HomeDeliveryBlock: React.FC = () => {
 				{/* 🔥 Добавляем отступ между графиком и карточками преимуществ на мобильных */}
 				<Box sx={{ display: { xs: 'block', md: 'none' }, height: '1rem' }} />
 
-				{/* НИЖНИЕ карточки преимуществ */}
+				{/* НИЖНИЕ карточки преимуществ с анимацией */}
 				<motion.div
 					initial='hidden'
 					whileInView='visible'
