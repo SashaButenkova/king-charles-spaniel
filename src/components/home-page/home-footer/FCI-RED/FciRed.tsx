@@ -8,9 +8,9 @@ export const FciRed: React.FC = ({}) => {
 			component='section'
 			sx={{
 				position: 'relative',
-				width: { xs: '16px', sm: '20px' },
-				height: { xs: '16px', sm: '20px' },
-				minWidth: '16px',
+				width: { xs: '40px', sm: '45px', lg: '50px' },
+				height: { xs: '40px', sm: '45px', lg: '50px' },
+				minWidth: '40px',
 			}}
 		>
 			{/* Основной круг */}

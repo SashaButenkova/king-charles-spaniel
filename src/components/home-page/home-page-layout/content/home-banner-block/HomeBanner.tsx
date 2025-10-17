@@ -23,54 +23,7 @@ export const HomeBanner: React.FC = () => {
 	const scrollContainerRef = useRef<HTMLDivElement>(null)
 	const itemRefs = useRef<(HTMLDivElement | null)[]>([])
 
-	// 🔥 Плавная функция для прокрутки к городу
-	const scrollToCity = (city: string) => {
-		const index = locItems.indexOf(city)
-		if (index !== -1 && itemRefs.current[index] && scrollContainerRef.current) {
-			setSelectedCity(city)
-
-			const container = scrollContainerRef.current
-			const item = itemRefs.current[index]
-
-			if (!item) return
-
-			// 🔥 Плавная прокрутка с вычислением позиции
-			const containerRect = container.getBoundingClientRect()
-			const itemRect = item.getBoundingClientRect()
-
-			const scrollLeft = container.scrollLeft
-			const itemOffsetLeft = item.offsetLeft
-			const containerCenter = containerRect.width / 2
-			const itemCenter = itemRect.width / 2
-
-			// Целевая позиция для центрирования элемента
-			const targetScroll = itemOffsetLeft - containerCenter + itemCenter
-
-			// 🔥 Плавная анимация скролла
-			const startTime = performance.now()
-			const duration = 500 // 0.5 секунды
-			const startScroll = scrollLeft
-
-			const animateScroll = (currentTime: number) => {
-				const elapsed = currentTime - startTime
-				const progress = Math.min(elapsed / duration, 1)
-
-				// 🔥 Easing функция для плавности
-				const easeOutQuart = 1 - Math.pow(1 - progress, 4)
-
-				container.scrollLeft =
-					startScroll + (targetScroll - startScroll) * easeOutQuart
-
-				if (progress < 1) {
-					requestAnimationFrame(animateScroll)
-				}
-			}
-
-			requestAnimationFrame(animateScroll)
-		}
-	}
-
-	// 🔥 Функция для определения видимого элемента с оптимизацией
+	// Функция для определения видимого элемента
 	const updateSelectedCityBasedOnScroll = () => {
 		const container = scrollContainerRef.current
 		if (!container) return
@@ -87,7 +40,6 @@ export const HomeBanner: React.FC = () => {
 				const itemCenter = itemRect.left + itemRect.width / 2
 				const distance = Math.abs(itemCenter - containerCenter)
 
-				// 🔥 Добавляем порог срабатывания
 				if (distance < minDistance) {
 					minDistance = distance
 					closestItem = locItems[index % locItems.length]
@@ -95,33 +47,36 @@ export const HomeBanner: React.FC = () => {
 			}
 		})
 
-		// 🔥 Добавляем порог срабатывания
-		if (closestItem && closestItem !== selectedCity && minDistance < 100) {
+		if (closestItem && closestItem !== selectedCity) {
 			setSelectedCity(closestItem)
 		}
 	}
 
-	// 🔥 Эффект для отслеживания прокрутки с debounce
+	// Эффект для отслеживания прокрутки
 	useEffect(() => {
 		const container = scrollContainerRef.current
 		if (!container) return
 
-		let scrollTimeout: NodeJS.Timeout
-
 		const handleScroll = () => {
-			// 🔥 Дебаунс для оптимизации
-			if (scrollTimeout) clearTimeout(scrollTimeout)
-			scrollTimeout = setTimeout(() => {
-				updateSelectedCityBasedOnScroll()
-			}, 50)
+			updateSelectedCityBasedOnScroll()
 		}
 
 		container.addEventListener('scroll', handleScroll)
-		return () => {
-			container.removeEventListener('scroll', handleScroll)
-			if (scrollTimeout) clearTimeout(scrollTimeout)
-		}
+		return () => container.removeEventListener('scroll', handleScroll)
 	}, [selectedCity])
+
+	// Функция для прокрутки к конкретному городу
+	const scrollToCity = (city: string) => {
+		const index = locItems.indexOf(city)
+		if (index !== -1 && itemRefs.current[index]) {
+			setSelectedCity(city)
+			itemRefs.current[index]?.scrollIntoView({
+				behavior: 'smooth',
+				block: 'nearest',
+				inline: 'center',
+			})
+		}
+	}
 
 	// Простые анимации без влияния на layout
 	const fadeIn = {
@@ -279,7 +234,7 @@ export const HomeBanner: React.FC = () => {
 						</Box>
 					</motion.div>
 
-					{/* Локации - Статичная карусель с выбором для мобильных */}
+					{/*  - Статичная карусель с выбором для мобильных */}
 					<Box
 						sx={{
 							width: '100%',
@@ -335,18 +290,12 @@ export const HomeBanner: React.FC = () => {
 										},
 										WebkitOverflowScrolling: 'touch',
 										scrollBehavior: 'smooth',
-										// 🔥 Улучшаем инерцию скролла
-										webkitOverflowScrolling: 'touch',
-										overscrollBehaviorX: 'contain',
 										// Показываем часть следующего элемента
 										paddingLeft: '10px',
 										paddingRight: '10px',
 										// Добавляем тень для индикации контента за пределами
 										maskImage:
 											'linear-gradient(90deg, transparent 0%, black 20%, black 80%, transparent 100%)',
-										// 🔥 Улучшаем производительность
-										willChange: 'transform',
-										backfaceVisibility: 'hidden',
 									}}
 								>
 									{/* Добавляем дубликаты для бесконечной прокрутки */}

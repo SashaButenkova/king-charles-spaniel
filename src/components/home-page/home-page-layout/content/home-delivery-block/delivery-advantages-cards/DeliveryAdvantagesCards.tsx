@@ -11,109 +11,145 @@ import { theme } from '../../../../../../styles/themes'
 
 export interface DeliveryAdvantagesCardsProps {
 	index: number
-	imageIcon: Array<{
-		src: string
-		sx?: SxProps<Theme>
-	}>
+	imageIcon: Array<{ src: string }>
 	title: string
 	subtitle: string
 	paragraph: string
 	sx?: SxProps<Theme>
+	containerSx?: SxProps<Theme>
+	iconSx?: SxProps<Theme>
+	contentSx?: SxProps<Theme>
+	titleContainerSx?: SxProps<Theme>
+	titleSx?: SxProps<Theme>
+	subtitleSx?: SxProps<Theme>
+	paragraphSx?: SxProps<Theme>
 }
 
 export const DeliveryAdvantagesCards: React.FC<
 	DeliveryAdvantagesCardsProps
-> = ({ index, title, subtitle, imageIcon, paragraph, sx }) => {
+> = ({
+	imageIcon,
+	title,
+	subtitle,
+	paragraph,
+	index,
+	sx,
+	containerSx,
+	iconSx,
+	contentSx,
+	titleContainerSx,
+	titleSx,
+	subtitleSx,
+	paragraphSx,
+}) => {
 	return (
-		<Box
-			component='section'
-			className='Advantages-Box'
-			sx={[
-				{
+		<Box sx={{ ...sx }}>
+			{/* Основной контейнер */}
+			<Box
+				sx={{
 					display: 'flex',
-					flexDirection: { xs: 'column', sm: 'row' },
-					alignItems: { xs: 'center', sm: 'flex-start' },
-					textAlign: { xs: 'center', sm: 'left' },
-					border: '1px solid rgba(0,0,0,0.1)',
-					borderRadius: '12px',
-					padding: { xs: '1.25rem 1rem', sm: '1rem 1.25rem' },
-					backgroundColor: '#fff',
+					flexDirection: { xs: 'row', sm: 'column' },
+					alignItems: { xs: 'flex-start', sm: 'flex-start' },
 					gap: { xs: '0.75rem', sm: '0.5rem' },
 					width: '100%',
-				},
-				...(Array.isArray(sx) ? sx : [sx]),
-			]}
-		>
-			{/* Иконка */}
-			<CardMedia
-				component='img'
-				src={imageIcon[0].src}
-				sx={{
-					width: { xs: 48, sm: 50 },
-					height: { xs: 48, sm: 50 },
-					marginBottom: { xs: '0.5rem', sm: 0 },
-				}}
-			/>
-
-			{/* Контент */}
-			<Stack
-				sx={{
-					width: '100%',
-					gap: { xs: '0.5rem', sm: '0.75rem' },
-					alignItems: { xs: 'center', sm: 'flex-start' },
-					justifyContent: { xs: 'center', sm: 'flex-start' },
+					...containerSx,
 				}}
 			>
-				<Typography
-					sx={{
-						fontFamily: theme.typography.PTSerif.fontFamily,
-						color: '#8C0303',
-						fontWeight: 600,
-						fontSize: { xs: '1.1rem', sm: '18px' },
-						lineHeight: 1.3,
-					}}
-				>
-					{title}
-				</Typography>
-
-				<Typography
-					sx={{
-						fontFamily: theme.typography.PTSans.fontFamily,
-						fontWeight: 400,
-						color: '#00000099',
-						fontSize: { xs: '0.9rem', sm: '14px' },
-						lineHeight: 1.5,
-						maxWidth: '100%',
-					}}
-				>
-					{subtitle}
-				</Typography>
-
+				{/* Контейнер для иконки и заголовка на одной линии */}
 				<Box
 					sx={{
-						backgroundColor: '#F7E4AF',
-						borderRadius: '8px',
-						display: 'inline-flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						padding: { xs: '0.4rem 0.9rem', sm: '0.25rem 0.5rem' },
-						marginTop: { xs: '0.3rem', sm: 0 },
+						display: 'flex',
+						flexDirection: { xs: 'row', sm: 'column' },
+						alignItems: { xs: 'center', sm: 'flex-start' },
+						gap: { xs: '0.5rem', sm: 0 },
+						mb: { xs: 0, sm: '0.5rem' },
+						...titleContainerSx,
 					}}
 				>
+					{/* Иконка */}
+					<Box
+						sx={{
+							width: { xs: '32px', sm: '48px' },
+							height: { xs: '32px', sm: '48px' },
+							minWidth: { xs: '32px', sm: '48px' },
+							flexShrink: 0,
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: { xs: '0.1rem', sm: 0 },
+							...iconSx,
+						}}
+					>
+						{imageIcon?.map((icon, i) => (
+							<CardMedia
+								key={i}
+								component='img'
+								src={icon.src}
+								sx={{
+									width: { xs: '20px', sm: '28px' },
+									height: { xs: '20px', sm: '28px' },
+								}}
+							/>
+						))}
+					</Box>
+
+					{/* Заголовок */}
 					<Typography
 						sx={{
-							fontFamily: theme.typography.PTSans.fontFamily,
+							fontSize: { xs: '0.85rem', sm: '1rem' },
+							fontWeight: { xs: 700, sm: 700 },
+							lineHeight: { xs: 1.2, sm: 1.2 },
 							color: '#8C0303',
-							fontWeight: 600,
-							fontSize: { xs: '0.9rem', sm: '16px' },
-							lineHeight: 1.2,
-							whiteSpace: 'nowrap',
+							mb: 0,
+							...titleSx,
+						}}
+					>
+						{title}
+					</Typography>
+				</Box>
+
+				{/* Остальной контент */}
+				<Box
+					sx={{
+						flex: 1,
+						display: 'flex',
+						flexDirection: 'column',
+						gap: { xs: '0.25rem', sm: '0.5rem' },
+						width: '100%',
+						...contentSx,
+					}}
+				>
+					{/* Подзаголовок */}
+					<Typography
+						sx={{
+							fontSize: { xs: '0.7rem', sm: '0.85rem' },
+							lineHeight: { xs: 1.3, sm: 1.5 },
+							color: '#666',
+							mb: 0,
+							...subtitleSx,
+						}}
+					>
+						{subtitle}
+					</Typography>
+
+					{/* Параграф - 🔥 УБРАЛ marginTop: 'auto' для ПК версии */}
+					<Typography
+						sx={{
+							fontSize: { xs: '0.65rem', sm: '0.8rem' },
+							fontWeight: { xs: 600, sm: 600 },
+							color: '#8C0303',
+							background: 'rgba(140,3,3,0.05)',
+							padding: { xs: '0.2rem 0.5rem', sm: '0.3rem 0.75rem' },
+							borderRadius: '8px',
+							alignSelf: { xs: 'flex-start', sm: 'flex-start' },
+							// 🔥 УБРАЛ: mt: { xs: '0.25rem', sm: 'auto' } - теперь параграф внутри потока
+							...paragraphSx,
 						}}
 					>
 						{paragraph}
 					</Typography>
 				</Box>
-			</Stack>
+			</Box>
 		</Box>
 	)
 }

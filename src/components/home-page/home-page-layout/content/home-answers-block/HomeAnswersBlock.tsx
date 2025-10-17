@@ -10,6 +10,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import React from 'react'
 import { theme } from '../../../../../styles/themes'
+import { motion, type Variants, easeOut } from 'framer-motion'
 
 interface HomeAnswersBlockProps {}
 
@@ -41,6 +42,51 @@ export const HomeAnswersBlock: React.FC<HomeAnswersBlockProps> = ({}) => {
 				'Да, мы всегда на связи с нашими покупателями и готовы помочь советом по телефону или через мессенджеры в любое время.',
 		},
 	]
+
+	// Анимации
+	const fadeInUp: Variants = {
+		hidden: { opacity: 0, y: 30 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			transition: { duration: 0.6, ease: easeOut },
+		},
+	}
+
+	const fadeIn: Variants = {
+		hidden: { opacity: 0 },
+		visible: {
+			opacity: 1,
+			transition: { duration: 0.8, ease: easeOut },
+		},
+	}
+
+	const scaleIn: Variants = {
+		hidden: { opacity: 0, scale: 0.9 },
+		visible: {
+			opacity: 1,
+			scale: 1,
+			transition: { duration: 0.5, ease: easeOut },
+		},
+	}
+
+	const staggerContainer: Variants = {
+		hidden: {},
+		visible: {
+			transition: {
+				staggerChildren: 0.15,
+			},
+		},
+	}
+
+	const accordionItem: Variants = {
+		hidden: { opacity: 0, y: 20 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			transition: { duration: 0.5, ease: easeOut },
+		},
+	}
 
 	// Функции для обработки кликов по кнопкам
 	const handleCallUs = () => {
@@ -96,322 +142,435 @@ export const HomeAnswersBlock: React.FC<HomeAnswersBlockProps> = ({}) => {
 					paddingX: { xs: '1rem', sm: '1.5rem', md: '2rem' },
 				}}
 			>
-				<Box
-					className='Header-Answers-Title-Stack'
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						alignItems: 'center',
-						gap: { xs: 1, md: 2 },
-						padding: { xs: '0.4rem 1rem', md: '0.5rem 1.5rem' },
-						backgroundColor: '#F7E4AF',
-						borderRadius: { xs: '8px', md: '12px' },
-						border: '1px solid rgba(140,3,3,0.1)',
-						boxShadow: '0 4px 12px rgba(247,228,175,0.4)',
-					}}
+				<motion.div
+					initial='hidden'
+					whileInView='visible'
+					viewport={{ once: true, amount: 0.3 }}
+					variants={fadeInUp}
 				>
-					<CardMedia
-						component='img'
-						src='question.svg'
+					<Box
+						className='Header-Answers-Title-Stack'
 						sx={{
-							width: { xs: '20px', md: '24px' },
-							height: { xs: '20px', md: '24px' },
-							filter: 'drop-shadow(0 2px 4px rgba(140,3,3,0.2))',
-						}}
-					/>
-					<Typography
-						sx={{
-							fontFamily: '"Inter", sans-serif',
-							fontWeight: '600',
-							fontSize: { xs: '12px', md: '14px' },
-							letterSpacing: '-0.01em',
-							color: '#8C0303',
-						}}
-					>
-						Часто задаваемые вопросы
-					</Typography>
-				</Box>
-
-				<Box
-					className='Header-Answers-SubTitle-Stack'
-					sx={{
-						textAlign: 'center',
-						px: { xs: 1, sm: 0 },
-					}}
-				>
-					<Typography
-						sx={{
-							fontFamily: '"Playfair Display", serif',
-							fontWeight: '700',
-							fontSize: { xs: '1.75rem', sm: '2.25rem', md: '3rem' },
-							lineHeight: 1.1,
-							background: 'linear-gradient(135deg, #DBBE2E 0%, #8C0303 100%)',
-							backgroundClip: 'text',
-							WebkitBackgroundClip: 'text',
-							WebkitTextFillColor: 'transparent',
-							textShadow: '0 4px 8px rgba(0,0,0,0.1)',
-						}}
-					>
-						Ответы на популярные вопросы
-					</Typography>
-				</Box>
-
-				<Box
-					className='Header-Answers-Paragraph-Stack'
-					sx={{
-						textAlign: 'center',
-						maxWidth: { xs: '100%', sm: '500px', md: '600px' },
-						px: { xs: 1, sm: 0 },
-					}}
-				>
-					<Typography
-						sx={{
-							fontFamily: theme.typography.PTSans,
-							fontWeight: '400',
-							fontSize: { xs: '0.9rem', sm: '1rem', md: '1.125rem' },
-							lineHeight: { xs: 1.5, md: 1.6 },
-							color: '#00000099',
-						}}
-					>
-						Собрали самые частые вопросы от будущих владельцев. Если не нашли
-						ответ — свяжитесь с нами для персональной консультации.
-					</Typography>
-				</Box>
-			</Box>
-
-			{/* Аккордеоны - одинаковой ширины и по центру */}
-			<Box
-				className='Main-Services-Stack'
-				sx={{
-					position: 'relative',
-					zIndex: 2,
-					paddingBlockStart: { xs: '1.5rem', md: '2.5rem' },
-					gap: { xs: '1rem', md: '1.5rem' },
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'center',
-					width: '100%',
-					maxWidth: '71.625rem',
-					margin: '0 auto',
-					paddingX: { xs: '1rem', sm: '1.5rem', md: '2rem' },
-					paddingBottom: { xs: '2rem', md: 0 },
-				}}
-			>
-				{faqList.map((faq, index) => (
-					<Accordion
-						key={index}
-						sx={{
-							width: '100%',
-							maxWidth: '71.625rem',
-							backgroundColor: '#FFFFFF',
-							borderRadius: { xs: '12px !important', md: '16px !important' },
-							boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+							display: 'flex',
+							flexDirection: 'row',
+							alignItems: 'center',
+							gap: { xs: 1, md: 2 },
+							padding: { xs: '0.4rem 1rem', md: '0.5rem 1.5rem' },
+							backgroundColor: '#F7E4AF',
+							borderRadius: { xs: '8px', md: '12px' },
 							border: '1px solid rgba(140,3,3,0.1)',
-							transition: 'all 0.3s ease',
-							'&:before': { display: 'none' },
-							'&.MuiAccordion-root': {
-								borderRadius: { xs: '12px', md: '16px' },
-							},
-							'&:hover': {
-								boxShadow: '0 8px 30px rgba(140,3,3,0.12)',
-								transform: { xs: 'translateY(-1px)', md: 'translateY(-2px)' },
-							},
-							'&.Mui-expanded': {
-								margin: '0 !important',
-								boxShadow: '0 8px 30px rgba(140,3,3,0.15)',
-							},
+							boxShadow: '0 4px 12px rgba(247,228,175,0.4)',
 						}}
 					>
-						<AccordionSummary
-							expandIcon={
-								<ExpandMoreIcon
-									sx={{
-										color: '#8C0303',
-										fontSize: { xs: '1.5rem', md: '2rem' },
-									}}
-								/>
-							}
+						<motion.div
+							variants={scaleIn}
+							whileHover={{ scale: 1.1 }}
+							transition={{ duration: 0.2 }}
+						>
+							<CardMedia
+								component='img'
+								src='question.svg'
+								sx={{
+									width: { xs: '20px', md: '24px' },
+									height: { xs: '20px', md: '24px' },
+									filter: 'drop-shadow(0 2px 4px rgba(140,3,3,0.2))',
+								}}
+							/>
+						</motion.div>
+						<Typography
 							sx={{
-								padding: { xs: '1rem 1.25rem', md: '1.5rem 2rem' },
-								minHeight: 'auto !important',
-								'& .MuiAccordionSummary-content': {
-									margin: '0 !important',
-								},
-								'&.Mui-expanded': {
-									minHeight: 'auto !important',
-									borderBottom: '1px solid rgba(140,3,3,0.1)',
-									backgroundColor: 'rgba(140,3,3,0.02)',
-								},
+								fontFamily: '"Inter", sans-serif',
+								fontWeight: '600',
+								fontSize: { xs: '12px', md: '14px' },
+								letterSpacing: '-0.01em',
+								color: '#8C0303',
 							}}
 						>
-							<Typography
-								sx={{
-									fontFamily: '"Playfair Display", serif',
-									fontWeight: '600',
-									fontSize: { xs: '1rem', sm: '1.125rem', md: '1.375rem' },
-									lineHeight: { xs: 1.4, md: 1.3 },
-									color: '#8C0303',
-									pr: { xs: 2, md: 0 },
-								}}
-							>
-								{faq.question}
-							</Typography>
-						</AccordionSummary>
+							Часто задаваемые вопросы
+						</Typography>
+					</Box>
+				</motion.div>
 
-						<AccordionDetails
-							sx={{
-								padding: { xs: '1.25rem 1.25rem 1.5rem', md: '2rem' },
-								backgroundColor: 'rgba(248,247,245,0.5)',
-							}}
-						>
-							<Typography
-								sx={{
-									fontFamily: '"PT Sans", sans-serif',
-									fontWeight: '400',
-									fontSize: { xs: '0.9rem', sm: '1rem', md: '1.125rem' },
-									lineHeight: { xs: 1.5, md: 1.6 },
-									color: '#000000CC',
-								}}
-							>
-								{faq.answer}
-							</Typography>
-						</AccordionDetails>
-					</Accordion>
-				))}
-			</Box>
-
-			{/* Блок "Остались вопросы?" - выровнен по центру и одинаковой ширины */}
-			<Box
-				className='Footer-Answers-Box'
-				sx={{
-					position: 'relative',
-					zIndex: 2,
-					paddingBlockStart: { xs: '1rem', md: '2rem' },
-					paddingBlockEnd: { xs: '2rem', md: '3rem' },
-					width: '100%',
-					display: 'flex',
-					justifyContent: 'center',
-					px: { xs: '1rem', sm: '1.5rem', md: '2rem' },
-					boxSizing: 'border-box',
-				}}
-			>
-				<Box
-					className='Footer-Answers-Stack'
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						gap: { xs: '1rem', md: '1.25rem' },
-						width: '100%',
-						maxWidth: '72rem',
-						borderRadius: { xs: '16px', md: '20px' },
-						backgroundColor: '#FFFFFF',
-						boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-						border: '1px solid rgba(255,255,255,0.5)',
-						padding: { xs: '1.5rem', md: '2.5rem' },
-						alignItems: 'center',
-						justifyContent: 'center',
-						textAlign: 'center',
-					}}
+				<motion.div
+					initial='hidden'
+					whileInView='visible'
+					viewport={{ once: true, amount: 0.3 }}
+					variants={fadeInUp}
 				>
-					<Typography
+					<Box
+						className='Header-Answers-SubTitle-Stack'
 						sx={{
-							fontFamily: '"Playfair Display", serif',
-							fontWeight: '700',
-							fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' },
-							color: '#8C0303',
-							lineHeight: 1.2,
-						}}
-					>
-						Остались вопросы?
-					</Typography>
-
-					<Typography
-						sx={{
-							fontFamily: '"PT Sans", sans-serif',
-							fontWeight: '400',
-							fontSize: { xs: '0.875rem', sm: '0.95rem', md: '1rem' },
-							lineHeight: { xs: 1.4, md: 1.5 },
-							color: '#00000099',
-							maxWidth: { xs: '100%', sm: '460px', md: '600px' },
+							textAlign: 'center',
 							px: { xs: 1, sm: 0 },
 						}}
 					>
-						Мы с радостью ответим на любые ваши вопросы и поможем выбрать
-						идеального щенка для вашей семьи.
-					</Typography>
+						<Typography
+							sx={{
+								fontFamily: '"Playfair Display", serif',
+								fontWeight: '700',
+								fontSize: { xs: '1.75rem', sm: '2.25rem', md: '3rem' },
+								lineHeight: 1.1,
+								background: 'linear-gradient(135deg, #DBBE2E 0%, #8C0303 100%)',
+								backgroundClip: 'text',
+								WebkitBackgroundClip: 'text',
+								WebkitTextFillColor: 'transparent',
+								textShadow: '0 4px 8px rgba(0,0,0,0.1)',
+							}}
+						>
+							Ответы на популярные вопросы
+						</Typography>
+					</Box>
+				</motion.div>
 
+				<motion.div
+					initial='hidden'
+					whileInView='visible'
+					viewport={{ once: true, amount: 0.3 }}
+					variants={fadeInUp}
+				>
 					<Box
-						className='Footer-Answers-Buttons-Stuck'
+						className='Header-Answers-Paragraph-Stack'
 						sx={{
-							display: 'flex',
-							flexDirection: { xs: 'column', sm: 'row' },
-							gap: { xs: '0.75rem', sm: 2 },
-							paddingTop: { xs: '0.75rem', md: '1rem' },
-							width: { xs: '100%', sm: 'auto' },
-							flexWrap: 'wrap',
-							justifyContent: 'center',
+							textAlign: 'center',
+							maxWidth: { xs: '100%', sm: '500px', md: '600px' },
+							px: { xs: 1, sm: 0 },
 						}}
 					>
-						<Button
-							onClick={handleCallUs}
+						<Typography
 							sx={{
-								minWidth: { xs: '100%', sm: '14rem' },
-								height: { xs: '2.75rem', md: '3rem' },
-								backgroundColor: '#8C0303',
-								borderRadius: { xs: '8px', md: '12px' },
-								boxShadow: '0 4px 12px rgba(140,3,3,0.3)',
-								transition: 'all 0.3s ease',
-								'&:hover': {
-									backgroundColor: '#a10505',
-									transform: { xs: 'translateY(-1px)', md: 'translateY(-2px)' },
-									boxShadow: '0 6px 20px rgba(140,3,3,0.4)',
-								},
+								fontFamily: theme.typography.PTSans,
+								fontWeight: '400',
+								fontSize: { xs: '0.9rem', sm: '1rem', md: '1.125rem' },
+								lineHeight: { xs: 1.5, md: 1.6 },
+								color: '#00000099',
 							}}
 						>
-							<Typography
-								sx={{
-									fontFamily: '"Inter", sans-serif',
-									fontWeight: '600',
-									fontSize: { xs: '0.85rem', md: '0.9rem' },
-									color: '#FFFFFF',
-									textTransform: 'none',
-								}}
-							>
-								Позвоните нам
-							</Typography>
-						</Button>
-
-						<Button
-							onClick={handleWhatsApp}
-							sx={{
-								minWidth: { xs: '100%', sm: '18rem' },
-								height: { xs: '2.75rem', md: '3rem' },
-								borderRadius: { xs: '8px', md: '12px' },
-								border: '2px solid #8C0303',
-								backgroundColor: 'transparent',
-								transition: 'all 0.3s ease',
-								'&:hover': {
-									backgroundColor: 'rgba(140, 3, 3, 0.04)',
-									transform: { xs: 'translateY(-1px)', md: 'translateY(-2px)' },
-									boxShadow: '0 4px 12px rgba(140,3,3,0.1)',
-								},
-							}}
-						>
-							<Typography
-								sx={{
-									fontFamily: '"Inter", sans-serif',
-									fontWeight: '600',
-									fontSize: { xs: '0.85rem', md: '0.9rem' },
-									color: '#8C0303',
-									textTransform: 'none',
-								}}
-							>
-								Написать в WhatsApp
-							</Typography>
-						</Button>
+							Собрали самые частые вопросы от будущих владельцев. Если не нашли
+							ответ — свяжитесь с нами для персональной консультации.
+						</Typography>
 					</Box>
-				</Box>
+				</motion.div>
 			</Box>
+
+			{/* Аккордеоны - одинаковой ширины и по центру */}
+			<motion.div
+				initial='hidden'
+				whileInView='visible'
+				viewport={{ once: true, amount: 0.1 }}
+				variants={staggerContainer}
+				style={{ width: '100%' }}
+			>
+				<Box
+					className='Main-Services-Stack'
+					sx={{
+						position: 'relative',
+						zIndex: 2,
+						paddingBlockStart: { xs: '1.5rem', md: '2.5rem' },
+						gap: { xs: '1rem', md: '1.5rem' },
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						width: '100%',
+						maxWidth: '71.625rem',
+						margin: '0 auto',
+						paddingX: { xs: '1rem', sm: '1.5rem', md: '2rem' },
+						paddingBottom: { xs: '2rem', md: 0 },
+					}}
+				>
+					{faqList.map((faq, index) => (
+						<motion.div
+							key={index}
+							variants={accordionItem}
+							style={{ width: '100%' }}
+						>
+							<Accordion
+								sx={{
+									width: '100%',
+									maxWidth: '71.625rem',
+									backgroundColor: '#FFFFFF',
+									borderRadius: {
+										xs: '12px !important',
+										md: '16px !important',
+									},
+									boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+									border: '1px solid rgba(140,3,3,0.1)',
+									transition: 'all 0.3s ease',
+									'&:before': { display: 'none' },
+									'&.MuiAccordion-root': {
+										borderRadius: { xs: '12px', md: '16px' },
+									},
+									'&:hover': {
+										boxShadow: '0 8px 30px rgba(140,3,3,0.12)',
+										transform: {
+											xs: 'translateY(-1px)',
+											md: 'translateY(-2px)',
+										},
+									},
+									'&.Mui-expanded': {
+										margin: '0 !important',
+										boxShadow: '0 8px 30px rgba(140,3,3,0.15)',
+									},
+								}}
+							>
+								<AccordionSummary
+									expandIcon={
+										<ExpandMoreIcon
+											sx={{
+												color: '#8C0303',
+												fontSize: { xs: '1.5rem', md: '2rem' },
+											}}
+										/>
+									}
+									sx={{
+										padding: { xs: '1rem 1.25rem', md: '1.5rem 2rem' },
+										minHeight: 'auto !important',
+										'& .MuiAccordionSummary-content': {
+											margin: '0 !important',
+										},
+										'&.Mui-expanded': {
+											minHeight: 'auto !important',
+											borderBottom: '1px solid rgba(140,3,3,0.1)',
+											backgroundColor: 'rgba(140,3,3,0.02)',
+										},
+									}}
+								>
+									<Typography
+										sx={{
+											fontFamily: '"Playfair Display", serif',
+											fontWeight: '600',
+											fontSize: { xs: '1rem', sm: '1.125rem', md: '1.375rem' },
+											lineHeight: { xs: 1.4, md: 1.3 },
+											color: '#8C0303',
+											pr: { xs: 2, md: 0 },
+										}}
+									>
+										{faq.question}
+									</Typography>
+								</AccordionSummary>
+
+								<AccordionDetails
+									sx={{
+										padding: { xs: '1.25rem 1.25rem 1.5rem', md: '2rem' },
+										backgroundColor: 'rgba(248,247,245,0.5)',
+									}}
+								>
+									<Typography
+										sx={{
+											fontFamily: '"PT Sans", sans-serif',
+											fontWeight: '400',
+											fontSize: { xs: '0.9rem', sm: '1rem', md: '1.125rem' },
+											lineHeight: { xs: 1.5, md: 1.6 },
+											color: '#000000CC',
+										}}
+									>
+										{faq.answer}
+									</Typography>
+								</AccordionDetails>
+							</Accordion>
+						</motion.div>
+					))}
+				</Box>
+			</motion.div>
+
+			{/* Блок "Остались вопросы?" - выровнен по центру и одинаковой ширины */}
+			<motion.div
+				initial='hidden'
+				whileInView='visible'
+				viewport={{ once: true, amount: 0.3 }}
+				variants={fadeIn}
+				style={{ width: '100%' }}
+			>
+				<Box
+					className='Footer-Answers-Box'
+					sx={{
+						position: 'relative',
+						zIndex: 2,
+						paddingBlockStart: { xs: '1rem', md: '2rem' },
+						paddingBlockEnd: { xs: '2rem', md: '3rem' },
+						width: '100%',
+						display: 'flex',
+						justifyContent: 'center',
+						px: { xs: '1rem', sm: '1.5rem', md: '2rem' },
+						boxSizing: 'border-box',
+					}}
+				>
+					<motion.div
+						variants={scaleIn}
+						style={{ width: '100%', maxWidth: '72rem' }}
+					>
+						<Box
+							className='Footer-Answers-Stack'
+							sx={{
+								display: 'flex',
+								flexDirection: 'column',
+								gap: { xs: '1rem', md: '1.25rem' },
+								width: '100%',
+								maxWidth: '72rem',
+								borderRadius: { xs: '16px', md: '20px' },
+								background: 'linear-gradient(135deg, #F8F7F5 0%, #F1F0ED 100%)',
+								boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+								border: '1px solid rgba(255,255,255,0.8)',
+								padding: { xs: '1.5rem', md: '2.5rem' },
+								alignItems: 'center',
+								justifyContent: 'center',
+								textAlign: 'center',
+								position: 'relative',
+								overflow: 'hidden',
+								'&::before': {
+									content: '""',
+									position: 'absolute',
+									top: 0,
+									left: 0,
+									right: 0,
+									bottom: 0,
+									background: `
+              radial-gradient(circle at 20% 20%, rgba(140,3,3,0.03) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(219,190,46,0.03) 0%, transparent 50%)
+            `,
+									zIndex: 1,
+								},
+							}}
+						>
+							<motion.div
+								variants={fadeInUp}
+								style={{ position: 'relative', zIndex: 2 }}
+							>
+								<Typography
+									sx={{
+										fontFamily: '"Playfair Display", serif',
+										fontWeight: '700',
+										fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' },
+										background: '#8C0303',
+										backgroundClip: 'text',
+										WebkitBackgroundClip: 'text',
+										WebkitTextFillColor: 'transparent',
+										lineHeight: 1.2,
+									}}
+								>
+									Остались вопросы?
+								</Typography>
+							</motion.div>
+
+							<motion.div
+								variants={fadeInUp}
+								style={{ position: 'relative', zIndex: 2 }}
+							>
+								<Typography
+									sx={{
+										fontFamily: '"PT Sans", sans-serif',
+										fontWeight: '400',
+										fontSize: { xs: '0.875rem', sm: '0.95rem', md: '1rem' },
+										lineHeight: { xs: 1.4, md: 1.5 },
+										color: '#00000099',
+										maxWidth: { xs: '100%', sm: '460px', md: '600px' },
+										px: { xs: 1, sm: 0 },
+									}}
+								>
+									Мы с радостью ответим на любые ваши вопросы и поможем выбрать
+									идеального щенка для вашей семьи.
+								</Typography>
+							</motion.div>
+
+							<motion.div
+								variants={fadeInUp}
+								style={{ width: '100%', position: 'relative', zIndex: 2 }}
+							>
+								<Box
+									className='Footer-Answers-Buttons-Stuck'
+									sx={{
+										display: 'flex',
+										flexDirection: { xs: 'column', sm: 'row' },
+										gap: { xs: '0.75rem', sm: 2 },
+										paddingTop: { xs: '0.75rem', md: '1rem' },
+										width: { xs: '100%', sm: 'auto' },
+										flexWrap: 'wrap',
+										justifyContent: 'center',
+									}}
+								>
+									<motion.div
+										whileHover={{ scale: 1.05 }}
+										whileTap={{ scale: 0.95 }}
+									>
+										<Button
+											onClick={handleCallUs}
+											sx={{
+												minWidth: { xs: '100%', sm: '14rem' },
+												height: { xs: '2.75rem', md: '3rem' },
+												background:
+													'linear-gradient(135deg, #8C0303 0%, #DBBE2E 100%)',
+												borderRadius: { xs: '12px', md: '16px' },
+												boxShadow: '0 4px 12px rgba(140,3,3,0.3)',
+												transition: 'all 0.3s ease',
+												position: 'relative',
+												overflow: 'hidden',
+												fontFamily: '"Inter", sans-serif',
+												fontWeight: '600',
+												fontSize: { xs: '0.85rem', md: '0.9rem' },
+												color: '#FFFFFF',
+												textTransform: 'none',
+												'&:hover': {
+													background:
+														'linear-gradient(135deg, #DBBE2E 0%, #8C0303 100%)',
+													transform: {
+														xs: 'translateY(-2px)',
+														md: 'translateY(-3px)',
+													},
+													boxShadow: '0 8px 25px rgba(140,3,3,0.4)',
+												},
+												'&:active': {
+													transform: 'translateY(0)',
+												},
+											}}
+										>
+											Позвоните нам
+										</Button>
+									</motion.div>
+
+									<motion.div
+										whileHover={{ scale: 1.05 }}
+										whileTap={{ scale: 0.95 }}
+									>
+										<Button
+											onClick={handleWhatsApp}
+											sx={{
+												minWidth: { xs: '100%', sm: '18rem' },
+												height: { xs: '2.75rem', md: '3rem' },
+												borderRadius: { xs: '12px', md: '16px' },
+												border: '2px solid transparent',
+												background:
+													'linear-gradient(135deg, #FFFFFF, #FFFFFF) padding-box, linear-gradient(135deg, #8C0303, #DBBE2E) border-box',
+												transition: 'all 0.3s ease',
+												fontFamily: '"Inter", sans-serif',
+												fontWeight: '600',
+												fontSize: { xs: '0.85rem', md: '0.9rem' },
+												color: '#8C0303',
+												textTransform: 'none',
+												position: 'relative',
+												overflow: 'hidden',
+												'&:hover': {
+													background:
+														'linear-gradient(135deg, #F8F7F5, #F8F7F5) padding-box, linear-gradient(135deg, #DBBE2E, #8C0303) border-box',
+													transform: {
+														xs: 'translateY(-2px)',
+														md: 'translateY(-3px)',
+													},
+													boxShadow: '0 8px 25px rgba(140,3,3,0.2)',
+													color: '#8C0303',
+												},
+												'&:active': {
+													transform: 'translateY(0)',
+												},
+											}}
+										>
+											Написать в WhatsApp
+										</Button>
+									</motion.div>
+								</Box>
+							</motion.div>
+						</Box>
+					</motion.div>
+				</Box>
+			</motion.div>
 		</Box>
 	)
 }

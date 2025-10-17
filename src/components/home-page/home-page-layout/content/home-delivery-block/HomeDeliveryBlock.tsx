@@ -14,10 +14,10 @@ import { motion, type Variants, easeOut } from 'framer-motion'
 export const HomeDeliveryBlock: React.FC = () => {
 	const locationCards: HomeDeliveryLocationCardsProps[] = [
 		{ title: 'Беларусь', subtitle: `По всей территории республики` },
-		{ title: 'Москва', subtitle: 'Москва \nи Московскую область' },
-		{ title: 'Смоленск', subtitle: 'Смоленск \nи Смоленскую область' },
-		{ title: 'Брянск', subtitle: 'Брянск \nи Брянскую область' },
-		{ title: 'Калуга', subtitle: 'Калуга \nи Калужскую область' },
+		{ title: 'Москва', subtitle: 'Москва \nи Московская область' },
+		{ title: 'Смоленск', subtitle: 'Смоленск \nи Смоленская область' },
+		{ title: 'Брянск', subtitle: 'Брянск \nи Брянская область' },
+		{ title: 'Калуга', subtitle: 'Калуга \nи Калужская область' },
 	]
 
 	const advantagesCards: DeliveryAdvantagesCardsProps[] = [
@@ -106,7 +106,6 @@ export const HomeDeliveryBlock: React.FC = () => {
 		},
 	}
 
-	// 🔥 Исправленный компонент для мобильного графика маршрута
 	// 🔥 Исправленный компонент для мобильного графика маршрута
 	const MobileRouteMap = () => (
 		<Box
@@ -684,6 +683,10 @@ export const HomeDeliveryBlock: React.FC = () => {
 									lineHeight: 1.6,
 									color: '#00000099',
 									maxWidth: { xs: '95%', sm: '640px', md: '760px' },
+									margin: '0 auto',
+									textAlign: 'center',
+									display: 'block',
+									width: '100%',
 								}}
 							>
 								Мы лично и бесплатно доставляем щенков по всей Беларуси, а также
@@ -699,7 +702,9 @@ export const HomeDeliveryBlock: React.FC = () => {
 				</Box>
 
 				{/* 🔥 ВЕРХНИЕ карточки локаций - ТОЛЬКО ДЛЯ ПК */}
-				<Box sx={{ display: { xs: 'none', md: 'block' }, width: '100%' }}>
+				<Box
+					sx={{ display: { xs: 'none', md: 'block' }, width: '100%', mb: 4 }}
+				>
 					<motion.div
 						initial='hidden'
 						whileInView='visible'
@@ -711,7 +716,7 @@ export const HomeDeliveryBlock: React.FC = () => {
 							sx={{
 								display: 'flex',
 								flexWrap: 'wrap',
-								gap: { xs: '1rem', sm: '1rem', md: '1.25rem' },
+								gap: { xs: '1rem', sm: '1rem', md: '2rem' },
 								justifyContent: 'center',
 								alignItems: 'center',
 								width: '100%',
@@ -724,8 +729,8 @@ export const HomeDeliveryBlock: React.FC = () => {
 									key={index}
 									variants={fadeInUp}
 									whileHover={{
-										y: -4,
-										scale: 1.03,
+										y: -6,
+										scale: 1.05,
 										transition: { duration: 0.2 },
 									}}
 									style={{
@@ -740,57 +745,56 @@ export const HomeDeliveryBlock: React.FC = () => {
 										{...card}
 										sx={{
 											background: 'transparent',
-											borderRadius: '12px',
+											borderRadius: '16px',
 											border: 'none',
 											boxShadow: 'none',
 											width: {
 												xs: '100%',
 												sm: '140px',
-												md: '140px',
+												md: '160px',
 											},
 											height: {
 												xs: '95px',
 												sm: '100px',
-												md: '100px',
+												md: '120px',
 											},
 											padding: {
 												xs: '0.9rem',
 												sm: '0.875rem',
-												md: '1rem',
+												md: '1.5rem 1rem',
 											},
 											display: 'flex',
 											flexDirection: 'column',
 											alignItems: 'center',
 											justifyContent: 'center',
 											textAlign: 'center',
-											transition: 'all 0.25s ease',
-											backgroundImage:
-												'linear-gradient(135deg, rgba(140,3,3,0.05) 0%, rgba(219,190,46,0.05) 100%)',
+											transition: 'all 0.3s ease',
 											'&:hover': {
-												backgroundImage:
-													'linear-gradient(135deg, rgba(140,3,3,0.08) 0%, rgba(219,190,46,0.08) 100%)',
-												boxShadow: '0 4px 12px rgba(140,3,3,0.1)',
+												background: 'transparent',
+												border: 'none',
+												boxShadow: 'none',
+												transform: 'translateY(-2px)',
 											},
 										}}
 										titleSx={{
 											fontSize: {
 												xs: '0.9rem',
 												sm: '0.9rem',
-												md: '0.95rem',
+												md: '1.1rem',
 											},
 											fontWeight: 700,
 											color: '#8C0303',
 											textTransform: 'uppercase',
-											mb: 0.25,
+											mb: 0.5,
 											lineHeight: 1.2,
 										}}
 										subtitleSx={{
 											fontSize: {
 												xs: '0.75rem',
 												sm: '0.75rem',
-												md: '0.78rem',
+												md: '0.85rem',
 											},
-											lineHeight: 1.3,
+											lineHeight: 1.4,
 											whiteSpace: 'pre-line',
 											color: '#666',
 										}}
@@ -819,11 +823,10 @@ export const HomeDeliveryBlock: React.FC = () => {
 							flexWrap: { xs: 'wrap', sm: 'nowrap' },
 							alignItems: { xs: 'center', sm: 'stretch' },
 							justifyContent: { xs: 'center', sm: 'space-between' },
-							gap: { xs: '1.5rem', sm: '1.25rem' },
+							gap: { xs: '1rem', sm: '1.5rem' },
 							width: '100%',
 							maxWidth: '1100px',
 							margin: '0 auto',
-							transition: 'all 0.3s ease',
 						}}
 					>
 						{advantagesCards.map((card, index) => (
@@ -831,7 +834,7 @@ export const HomeDeliveryBlock: React.FC = () => {
 								key={index}
 								variants={fadeInUp}
 								whileHover={{
-									y: -3,
+									y: -4,
 									scale: 1.02,
 									transition: { duration: 0.2 },
 								}}
@@ -839,29 +842,110 @@ export const HomeDeliveryBlock: React.FC = () => {
 									width: '100%',
 									display: 'flex',
 									justifyContent: 'center',
-									transition: 'transform 0.2s ease',
 								}}
 							>
 								<DeliveryAdvantagesCards
 									{...card}
 									index={index}
 									sx={{
-										flexDirection: { xs: 'column', sm: 'row' },
-										alignItems: { xs: 'center', sm: 'flex-start' },
-										textAlign: { xs: 'center', sm: 'left' },
+										display: 'flex',
+										flexDirection: 'column',
+										alignItems: 'center',
+										textAlign: 'center',
 										border: '1px solid rgba(220,220,220,0.7)',
-										boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-										borderRadius: '12px',
-										width: { xs: '90%', sm: '100%' },
-										maxWidth: { xs: '340px', sm: 'unset' },
-										padding: { xs: '1.5rem 1rem', sm: '1rem 1.25rem' },
+										boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+										borderRadius: '16px',
+										width: { xs: '100%', sm: '100%' },
+										maxWidth: { xs: '100%', sm: '300px' },
+										padding: { xs: '0.75rem 1rem', sm: '0.75rem 1rem' },
 										background: '#fff',
-										gap: { xs: '1rem', sm: '0.5rem' },
-										transition: 'all 0.25s ease',
+										gap: { xs: '0.4rem', sm: '0.5rem' },
+										transition: 'all 0.3s ease',
+										minHeight: { xs: '160px', sm: '180px' },
+										height: { xs: '160px', sm: '180px' },
 										'&:hover': {
 											borderColor: 'rgba(140,3,3,0.3)',
-											boxShadow: '0 4px 12px rgba(140,3,3,0.08)',
+											boxShadow: '0 6px 20px rgba(140,3,3,0.1)',
+											transform: 'translateY(-2px)',
 										},
+									}}
+									containerSx={{
+										display: 'flex',
+										flexDirection: 'column',
+										alignItems: 'center',
+										gap: { xs: '0.25rem', sm: '0.3rem' },
+										width: '100%',
+										height: '100%',
+										justifyContent: 'space-between',
+									}}
+									iconSx={{
+										width: { xs: '30px', sm: '38px' },
+										height: { xs: '30px', sm: '38px' },
+										minWidth: { xs: '30px', sm: '38px' },
+										flexShrink: 0,
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										background: { xs: 'none', sm: 'none' },
+										borderRadius: { xs: '0', sm: '0' },
+										padding: { xs: '0', sm: '0' },
+										mb: 0,
+									}}
+									contentSx={{
+										flex: 1,
+										display: 'flex',
+										flexDirection: 'column',
+										gap: { xs: '0.25rem', sm: '0.3rem' },
+										width: '100%',
+										height: '100%',
+										justifyContent: 'space-between',
+										alignItems: 'center',
+									}}
+									titleContainerSx={{
+										display: 'flex',
+										flexDirection: 'column',
+										alignItems: 'center',
+										gap: { xs: '0.15rem', sm: '0.2rem' },
+										width: '100%',
+										justifyContent: 'center',
+										mb: 0,
+										margin: '0',
+										maxWidth: '100%',
+									}}
+									titleSx={{
+										fontSize: { xs: '0.95rem', sm: '1rem' },
+										fontWeight: 700,
+										lineHeight: 1.2,
+										color: '#8C0303',
+										mb: 0,
+										textAlign: 'center',
+										whiteSpace: { xs: 'nowrap', sm: 'normal' },
+									}}
+									subtitleSx={{
+										fontSize: { xs: '0.78rem', sm: '0.85rem' },
+										lineHeight: { xs: 1.3, sm: 1.4 },
+										color: '#666',
+										mb: 0,
+										display: '-webkit-box',
+										WebkitLineClamp: { xs: 3, sm: 3 },
+										WebkitBoxOrient: 'vertical',
+										overflow: 'hidden',
+										textAlign: 'center',
+										width: '100%',
+										flex: 1,
+									}}
+									paragraphSx={{
+										fontSize: { xs: '0.75rem', sm: '0.8rem' },
+										fontWeight: 600,
+										color: '#8C0303',
+										background: 'rgba(140,3,3,0.05)',
+										padding: { xs: '0.2rem 0.8rem', sm: '0.2rem 0.8rem' },
+										borderRadius: '16px',
+										alignSelf: 'center',
+										textAlign: 'center',
+										whiteSpace: 'nowrap',
+										mt: 0,
+										border: 'none',
 									}}
 								/>
 							</motion.div>

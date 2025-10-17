@@ -8,13 +8,13 @@ export interface HomeDeliveryLocationCardsProps {
 	title: string
 	subtitle: string
 	sx?: SxProps<Theme>
-	titleSx?: SxProps<Theme> // ← добавляем это
-	subtitleSx?: SxProps<Theme> // ← и это
+	titleSx?: SxProps<Theme>
+	subtitleSx?: SxProps<Theme>
 }
 
 export const HomeDeliveryLocationCards: React.FC<
 	HomeDeliveryLocationCardsProps
-> = ({ title, subtitle }) => {
+> = ({ title, subtitle, sx, titleSx, subtitleSx }) => {
 	const theme = useTheme()
 
 	return (
@@ -27,6 +27,7 @@ export const HomeDeliveryLocationCards: React.FC<
 				//boxShadow: '0 0 4px 0 rgba(0, 0, 0, 0.25)',
 				width: '213px',
 				height: '213px',
+				...sx, // 🔥 Добавляем поддержку sx пропса
 			}}
 		>
 			<Stack
@@ -64,6 +65,7 @@ export const HomeDeliveryLocationCards: React.FC<
 							fontSize: '18px',
 							lineHeight: '100%',
 							color: '#8C0303',
+							...titleSx, // 🔥 Добавляем поддержку titleSx пропса
 						}}
 					>
 						{title}
@@ -78,6 +80,7 @@ export const HomeDeliveryLocationCards: React.FC<
 								color: '#00000099',
 								textAlign: 'center',
 								whiteSpace: 'pre-line',
+								...subtitleSx, // 🔥 Добавляем поддержку subtitleSx пропса
 							}}
 						>
 							{subtitle}
